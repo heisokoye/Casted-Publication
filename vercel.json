@@ -1,0 +1,16 @@
+{
+  "rewrites": [
+    {
+      "source": "/api/:path*",
+      "destination": "/fcm-server/api/index.js"
+    },
+    {
+      "source": "/share/post/:id",
+      "destination": "/api/share/post/:id"
+    },
+    {
+      "source": "/((?!api/|.*\\.).*)",
+      "destination": "/index.html"
+    }
+  ]
+}

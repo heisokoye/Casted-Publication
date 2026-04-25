@@ -1,0 +1,21 @@
+{
+  "name": "CASTED!",
+  "short_name": "CASTED!",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#ffffff",
+  "theme_color": "#c88b66",
+  "description": "CASTED! Publications blog",
+  "icons": [
+    {
+      "src": "/icons/casted192.webp",
+      "sizes": "192x192",
+      "type": "image/webp"
+    },
+    {
+      "src": "/icons/casted512.webp",
+      "sizes": "512x512",
+      "type": "image/webp"
+    }
+  ]
+}

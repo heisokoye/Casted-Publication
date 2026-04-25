@@ -1,0 +1,10 @@
+/* Partners.css */
+@keyframes scrollLeft {
+  0% { transform: translateX(0); }
+  100% { transform: translateX(-100%); } /* Scroll half because we duplicate logos */
+}
+
+.animate-scrollLeft {
+  display: flex;
+  animation: scrollLeft 20s linear infinite;
+}

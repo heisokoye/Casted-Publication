@@ -1,0 +1,51 @@
+.link-underline {
+  position: relative;
+  display: inline-block;
+  text-decoration: none;
+  transition: all 0.3s ease;
+}
+
+/* hide underline initially */
+.link-underline::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  bottom: -3px;
+  width: 100%;
+  height: 10px;
+  background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='200' height='20'><path d='M0 15 Q50 5 100 15 T200 15' stroke='%238B4513' stroke-width='4' fill='transparent' stroke-linecap='round'/></svg>");
+  background-repeat: no-repeat;
+  background-size: 100% 100%;
+  transform: scaleX(0);
+  transform-origin: left;
+  transition: transform 0.4s ease;
+}
+
+/* show underline on hover */
+.link-underline:hover::after {
+  transform: scaleX(1);
+}
+
+
+.feature-above-1500{
+  @media (min-width: 1501px) {
+    display: flex;
+  } 
+}
+
+/* Force the Quill Link/Video tooltip inputs to be visible */
+.ql-snow .ql-tooltip input[type="text"] {
+  border: 1px solid #d1d5db !important; /* light gray border */
+  background-color: #fff !important;
+  color: #374151 !important;
+  padding: 4px 8px !important;
+  border-radius: 4px !important;
+  margin-right: 10px !important;
+}
+
+/* Ensure the tooltip sits on top of the modal */
+.ql-snow .ql-tooltip {
+  z-index: 9999 !important;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.15) !important;
+  background: white !important;
+}
