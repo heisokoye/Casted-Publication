@@ -245,62 +245,58 @@ const EventCalendar = () => {
           </div>
 
           <div className="space-y-4">
-            <AnimatePresence mode="popLayout">
-              {upcomingEvents.length > 0 ? (
-                upcomingEvents.map((event, index) => (
-                  <motion.div
-                    key={event.id}
-                    initial={{ opacity: 0, x: -20 }}
-                    animate={{ opacity: 1, x: 0 }}
-                    transition={{ delay: index * 0.1 }}
-                    className="group bg-white rounded-[24px] p-5 border border-gray-100 shadow-[0_4px_20px_rgb(0,0,0,0.03)] hover:shadow-[0_8px_30px_rgb(0,0,0,0.06)] transition-all relative overflow-hidden"
-                  >
-                    <div className={`absolute top-0 left-0 bottom-0 w-1.5 ${getEventTypeColor(event.type)}`} />
-                    <div className="flex items-start justify-between gap-4">
-                      <div className="flex-1">
-                        <h4 className="font-bold text-gray-900 text-lg leading-tight mb-2 group-hover:text-orange-600 transition-colors">
-                          {event.title}
-                        </h4>
-                        <div className="flex flex-wrap gap-3 text-[13px] font-medium text-gray-500">
-                          <div className="flex items-center gap-1.5 py-1 px-2.5 bg-gray-50 rounded-lg">
-                            <FaCalendarAlt className="text-orange-400" />
-                            {event.date.toLocaleDateString("en-US", { month: "short", day: "numeric" })}
-                          </div>
-                          <div className="flex items-center gap-1.5 py-1 px-2.5 bg-gray-50 rounded-lg">
-                            <span className="w-1.5 h-1.5 rounded-full bg-orange-400" />
-                            {event.time}
-                          </div>
-                          <div className="flex items-center gap-1.5 py-1 px-2.5 bg-gray-50 rounded-lg w-full mt-1">
-                            <span className="text-gray-400">@</span>
-                            <span className="truncate">{event.location}</span>
-                          </div>
+            
+            {upcomingEvents.length > 0 ? (
+              upcomingEvents.map((event, index) => (
+                <div
+                  key={event.id}
+                  className="group bg-white rounded-[24px] p-5 border border-gray-100 shadow-[0_4px_20px_rgb(0,0,0,0.03)] hover:shadow-[0_8px_30px_rgb(0,0,0,0.06)] transition-all relative overflow-hidden"
+                >
+                  <div className={`absolute top-0 left-0 bottom-0 w-1.5 ${getEventTypeColor(event.type)}`} />
+                  <div className="flex items-start justify-between gap-4">
+                    <div className="flex-1">
+                      <h4 className="font-bold text-gray-900 text-lg leading-tight mb-2 group-hover:text-orange-600 transition-colors">
+                        {event.title}
+                      </h4>
+                      <div className="flex flex-wrap gap-3 text-[13px] font-medium text-gray-500">
+                        <div className="flex items-center gap-1.5 py-1 px-2.5 bg-gray-50 rounded-lg">
+                          <FaCalendarAlt className="text-orange-400" />
+                          {event.date.toLocaleDateString("en-US", { month: "short", day: "numeric" })}
+                        </div>
+                        <div className="flex items-center gap-1.5 py-1 px-2.5 bg-gray-50 rounded-lg">
+                          <span className="w-1.5 h-1.5 rounded-full bg-orange-400" />
+                          {event.time}
+                        </div>
+                        <div className="flex items-center gap-1.5 py-1 px-2.5 bg-gray-50 rounded-lg w-full mt-1">
+                          <span className="text-gray-400">@</span>
+                          <span className="truncate">{event.location}</span>
                         </div>
                       </div>
-                      <div className="flex flex-col gap-2">
-                        <motion.button
-                          whileTap={{ scale: 0.9 }}
-                          onClick={() => handleShare(event)}
-                          className="p-3 rounded-2xl bg-gray-50 text-gray-700 hover:bg-orange-50 hover:text-orange-600 transition-all border border-transparent hover:border-orange-100 shadow-sm"
-                          title="Share Event"
-                        >
-                          <ShareIcon />
-                        </motion.button>
-                        <motion.button
-                          whileTap={{ scale: 0.9 }}
-                          onClick={() => handleAddToCalendar(event)}
-                          className="p-3 rounded-2xl bg-gray-50 text-gray-700 hover:bg-orange-50 hover:text-orange-600 transition-all border border-transparent hover:border-orange-100 shadow-sm"
-                          title="Add to Calendar"
-                        >
-                          <FaCalendarPlus size={16} />
-                        </motion.button>
-                      </div>
                     </div>
-                  </motion.div>
-                ))
-              ) : (
-                <p className="text-gray-400 text-center py-8 font-medium">No upcoming events found.</p>
-              )}
-            </AnimatePresence>
+                    <div className="flex flex-col gap-2">
+                      <button
+                        whileTap={{ scale: 0.9 }}
+                        onClick={() => handleShare(event)}
+                        className="p-3 rounded-2xl bg-gray-50 text-gray-700 hover:bg-orange-50 hover:text-orange-600 transition-all border border-transparent hover:border-orange-100 shadow-sm"
+                        title="Share Event"
+                      >
+                        <ShareIcon />
+                      </button>
+                      <button
+                        whileTap={{ scale: 0.9 }}
+                        onClick={() => handleAddToCalendar(event)}
+                        className="p-3 rounded-2xl bg-gray-50 text-gray-700 hover:bg-orange-50 hover:text-orange-600 transition-all border border-transparent hover:border-orange-100 shadow-sm"
+                        title="Add to Calendar"
+                      >
+                        <FaCalendarPlus size={16} />
+                      </button>
+                    </div>
+                  </div>
+                </div>
+              ))
+            ) : (
+              <p className="text-gray-400 text-center py-8 font-medium">No upcoming events found.</p>
+            )}
           </div>
         </div>
       </div>
