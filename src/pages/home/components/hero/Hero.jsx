@@ -15,8 +15,8 @@ const Hero = () => {
     const sliderRef = useRef(null);
 
     const preview = [
-        { pictures: "pitch.png", loading: "lazy" },
-        {pictures: "Nesa.png", loading: "lazy" }
+        {pictures: "Nesa.png", loading: "lazy" },
+        { pictures: "pitch.png", loading: "lazy" }
     ];
 
     // Function to go to the previous slide
