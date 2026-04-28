@@ -5,6 +5,11 @@ import { BsArrowRight, BsArrowLeft } from 'react-icons/bs'; // Icons for slider 
 import { motion, AnimatePresence } from 'framer-motion'; // For animations
 
 // Hero component definition
+const preview = [
+    { pictures: "Nesa.png", loading: "lazy" },
+    { pictures: "pitch.png", loading: "lazy" },
+];
+
 const Hero = () => {
     // State to track the current slide index
     const [currentSlide, setCurrentSlide] = useState(0);
@@ -13,11 +18,6 @@ const Hero = () => {
     // Refs for DOM elements
     const heroRef = useRef(null);
     const sliderRef = useRef(null);
-
-    const preview = [
-        {pictures: "Nesa.png", loading: "lazy" },
-        { pictures: "pitch.png", loading: "lazy" }
-    ];
 
     // Function to go to the previous slide
     const prevSlide = () => {

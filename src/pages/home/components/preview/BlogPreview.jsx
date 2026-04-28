@@ -82,8 +82,8 @@ const usePostActions = (post) => {
 
 const getPreviewText = (html, limit = 150) => {
   if (!html) return "";
-  const parsed = new DOMParser().parseFromString(html, "text/html");
-  const text = (parsed.body.textContent || "").replace(/\s+/g, " ").trim();
+  // Faster alternative to DOMParser for stripping HTML tags
+  const text = html.replace(/<[^>]*>/g, ' ').replace(/\s+/g, " ").trim();
   return text.length > limit ? text.slice(0, limit) + "..." : text;
 };
 
@@ -127,7 +127,9 @@ const PostCard = ({ post, index }) => {
             <h3 className="font-medium text-gray-900 text-[17px] line-clamp-2 mb-2 group-hover:text-orange-500 transition-colors">
                 {post.title}
             </h3>
-            <p className="text-sm text-gray-600 line-clamp-2 flex-grow">{getPreviewText(post.content, 100)}</p>
+            <p className="text-sm text-gray-600 line-clamp-2 flex-grow">
+              {React.useMemo(() => getPreviewText(post.content, 100), [post.content])}
+            </p>
             <div className="flex items-center justify-between px-1 pt-3 mt-auto border-t border-gray-100 relative">
                 <button
                     onClick={handleLike}

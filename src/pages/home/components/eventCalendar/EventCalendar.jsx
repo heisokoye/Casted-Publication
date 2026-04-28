@@ -172,10 +172,10 @@ const EventCalendar = () => {
     setCurrentMonth(new Date(currentMonth.getFullYear(), currentMonth.getMonth() + 1, 1));
   };
 
-  const getEventsForDate = (day) => {
+  const getEventsForDate = React.useCallback((day) => {
     const date = new Date(currentMonth.getFullYear(), currentMonth.getMonth(), day);
     return events.filter((event) => event.date.toDateString() === date.toDateString());
-  };
+  }, [currentMonth, events]);
 
   const getEventTypeColor = (type) => {
     switch (type) {
@@ -225,13 +225,14 @@ const EventCalendar = () => {
   const monthNames = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
   const dayNames = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
 
-  const startOfToday = new Date();
-  startOfToday.setHours(0, 0, 0, 0);
-
-  const upcomingEvents = events
-    .filter((event) => new Date(event.date) >= startOfToday)
-    .sort((a, b) => new Date(a.date) - new Date(b.date))
-    .slice(0, 3);
+  const upcomingEvents = React.useMemo(() => {
+    const startOfToday = new Date();
+    startOfToday.setHours(0, 0, 0, 0);
+    return events
+      .filter((event) => new Date(event.date) >= startOfToday)
+      .sort((a, b) => new Date(a.date) - new Date(b.date))
+      .slice(0, 3);
+  }, [events]);
 
   return (
     <section className="py-16 border-b border-gray-100 md:hidden lg:hidden bg-gray-50/50">
