@@ -16,6 +16,7 @@ const Hero = () => {
 
     const preview = [
         { pictures: "pitch.png", loading: "lazy" },
+        {pictures: "Nesa.png", loading: "lazy" }
     ];
 
     // Function to go to the previous slide
