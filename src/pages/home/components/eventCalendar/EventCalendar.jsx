@@ -156,6 +156,8 @@ const EventCalendar = () => {
   ]);
 
   const [currentMonth, setCurrentMonth] = useState(new Date());
+  const [selectedDayEvents, setSelectedDayEvents] = useState(null);
+  const [isModalOpen, setIsModalOpen] = useState(false);
   const today = new Date();
 
   const firstDayOfMonth = new Date(currentMonth.getFullYear(), currentMonth.getMonth(), 1);
@@ -175,6 +177,30 @@ const EventCalendar = () => {
     const date = new Date(currentMonth.getFullYear(), currentMonth.getMonth(), day);
     return events.filter((event) => event.date.toDateString() === date.toDateString());
   }, [currentMonth, events]);
+
+  const handleDayClick = (day) => {
+    const dayEvents = getEventsForDate(day);
+    if (dayEvents.length > 0) {
+      setSelectedDayEvents({
+        date: new Date(currentMonth.getFullYear(), currentMonth.getMonth(), day),
+        events: dayEvents
+      });
+      setIsModalOpen(true);
+    }
+  };
+
+  const handleEventClick = (event) => {
+    setSelectedDayEvents({
+      date: event.date,
+      events: [event]
+    });
+    setIsModalOpen(true);
+  };
+
+  const closeModal = () => {
+    setIsModalOpen(false);
+    setSelectedDayEvents(null);
+  };
 
   const getEventTypeColor = (type) => {
     switch (type) {
@@ -315,7 +341,8 @@ const EventCalendar = () => {
               return (
                 <div
                   key={day}
-                  className={`aspect-square relative flex flex-col items-center justify-center text-sm rounded-2xl transition-all ${
+                  onClick={() => handleDayClick(day)}
+                  className={`aspect-square relative flex flex-col items-center justify-center text-sm rounded-2xl transition-all cursor-pointer ${
                     isToday
                       ? "bg-orange-500 text-white font-bold shadow-lg shadow-orange-200"
                       : dayEvents.length > 0
@@ -358,7 +385,8 @@ const EventCalendar = () => {
               upcomingEvents.map((event, index) => (
                 <div
                   key={event.id}
-                  className="group bg-white rounded-[32px] p-4 border border-gray-100 shadow-[0_8px_30px_rgb(0,0,0,0.02)] hover:shadow-[0_15px_40px_rgb(0,0,0,0.05)] transition-all relative flex items-center gap-4"
+                  onClick={() => handleEventClick(event)}
+                  className="group bg-white rounded-[32px] p-4 border border-gray-100 shadow-[0_8px_30px_rgb(0,0,0,0.02)] hover:shadow-[0_15px_40px_rgb(0,0,0,0.05)] transition-all relative flex items-center gap-4 cursor-pointer"
                 >
                   {/* Date Badge */}
                   <div className={`flex-shrink-0 w-16 h-16 rounded-2xl flex flex-col items-center justify-center transition-transform group-hover:scale-105 duration-300 ${getEventTypeColorLight(event.type)}`}>
@@ -412,6 +440,91 @@ const EventCalendar = () => {
           </div>
         </div>
       </div>
+
+      {/* Event Detail Modal Overlay */}
+      {isModalOpen && selectedDayEvents && (
+        <div 
+          className="fixed inset-0 z-[100] flex items-center justify-center p-4 bg-black/60 backdrop-blur-sm"
+          onClick={closeModal}
+        >
+          <div 
+            className="bg-white rounded-[40px] w-full max-w-sm overflow-hidden shadow-2xl relative"
+            onClick={(e) => e.stopPropagation()}
+          >
+            {/* Modal Header */}
+            <div className="p-8 pb-4">
+              <div className="flex justify-between items-start mb-6">
+                <div>
+                  <h3 className="text-3xl font-bold text-gray-900">Events</h3>
+                  <p className="text-orange-500 font-bold mt-1">
+                    {selectedDayEvents.date.toLocaleDateString("en-US", { 
+                      weekday: 'long',
+                      month: 'long', 
+                      day: 'numeric' 
+                    })}
+                  </p>
+                </div>
+                <button 
+                  onClick={closeModal}
+                  className="p-2 bg-gray-100 rounded-full text-gray-500 hover:bg-gray-200 transition-colors"
+                >
+                  <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+                    <line x1="18" y1="6" x2="6" y2="18"></line>
+                    <line x1="6" y1="6" x2="18" y2="18"></line>
+                  </svg>
+                </button>
+              </div>
+
+              {/* Event List in Modal */}
+              <div className="space-y-6 max-h-[60vh] overflow-y-auto pr-2 custom-scrollbar">
+                {selectedDayEvents.events.map((event) => (
+                  <div key={event.id} className="relative pl-6 border-l-4 rounded-sm" style={{ borderColor: 'transparent' }}>
+                    <div className={`absolute left-[-4px] top-0 bottom-0 w-1 rounded-full ${getEventTypeColor(event.type)}`} />
+                    
+                    <div className="flex items-center gap-2 mb-2">
+                      <span className={`text-[10px] font-black px-2 py-0.5 rounded-full uppercase tracking-wider ${getEventTypeColorLight(event.type)} ${getEventTextColor(event.type)}`}>
+                        {event.type}
+                      </span>
+                      <span className="text-xs text-gray-400 font-bold">{event.time}</span>
+                    </div>
+
+                    <h4 className="text-xl font-bold text-gray-900 mb-2 leading-tight">
+                      {event.title}
+                    </h4>
+
+                    <div className="flex items-center gap-2 text-sm text-gray-500 mb-4">
+                      <span className="opacity-60 text-lg">@</span>
+                      <span className="font-medium">{event.location}</span>
+                    </div>
+
+                    <div className="flex gap-3">
+                      <button
+                        onClick={() => handleShare(event)}
+                        className="flex-1 flex items-center justify-center gap-2 py-3 px-4 bg-gray-50 rounded-2xl text-gray-700 font-bold text-sm hover:bg-orange-50 hover:text-orange-600 transition-all border border-transparent hover:border-orange-100"
+                      >
+                        <ShareIcon className="w-4 h-4" />
+                        Share
+                      </button>
+                      <button
+                        onClick={() => handleAddToCalendar(event)}
+                        className="flex-1 flex items-center justify-center gap-2 py-3 px-4 bg-orange-500 rounded-2xl text-white font-bold text-sm hover:bg-orange-600 transition-all shadow-lg shadow-orange-200"
+                      >
+                        <FaCalendarPlus size={14} />
+                        Add
+                      </button>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </div>
+            
+            {/* Modal Footer */}
+            <div className="p-6 bg-gray-50 flex justify-center">
+              <p className="text-[10px] text-gray-400 font-bold uppercase tracking-[2px]">Casted Publications • 2026</p>
+            </div>
+          </div>
+        </div>
+      )}
     </section>
   );
 };
