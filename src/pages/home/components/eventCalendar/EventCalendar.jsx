@@ -1,6 +1,5 @@
 import React, { useState } from "react";
 import { FaCalendarAlt, FaChevronLeft, FaChevronRight, FaCalendarPlus } from "react-icons/fa";
-import { motion, AnimatePresence } from "framer-motion";
 
 /**
  * Custom iPhone-style Share Icon
@@ -186,6 +185,24 @@ const EventCalendar = () => {
     }
   };
 
+  const getEventTypeColorLight = (type) => {
+    switch (type) {
+      case "sports": return "bg-[#e6fff9]";
+      case "academic": return "bg-[#ebf5ff]";
+      case "cultural": return "bg-[#f5f0ff]";
+      default: return "bg-[#fff7ed]";
+    }
+  };
+
+  const getEventTextColor = (type) => {
+    switch (type) {
+      case "sports": return "text-[#00a87d]";
+      case "academic": return "text-[#3b82f6]";
+      case "cultural": return "text-[#8b5cf6]";
+      default: return "text-[#f59e0b]";
+    }
+  };
+
   const handleShare = async (event) => {
     const shareData = {
       title: event.title,
@@ -252,14 +269,10 @@ const EventCalendar = () => {
         </div>
 
         <div 
-          initial={{ opacity: 0, scale: 0.95 }}
-          whileInView={{ opacity: 1, scale: 1 }}
-          viewport={{ once: true }}
           className="bg-white rounded-3xl shadow-[0_8px_30px_rgb(0,0,0,0.04)] border border-gray-100 p-6 mb-8 overflow-hidden"
         >
           <div className="flex items-center justify-between mb-8">
             <button
-              whileTap={{ scale: 0.9 }}
               onClick={goToPreviousMonth}
               className="p-3 rounded-2xl bg-gray-50 text-gray-600 hover:bg-gray-100 transition-all"
             >
@@ -274,7 +287,6 @@ const EventCalendar = () => {
               </h4>
 
             <button
-              whileTap={{ scale: 0.9 }}
               onClick={goToNextMonth}
               className="p-3 rounded-2xl bg-gray-50 text-gray-600 hover:bg-gray-100 transition-all"
             >
@@ -303,7 +315,6 @@ const EventCalendar = () => {
               return (
                 <div
                   key={day}
-                  whileTap={{ scale: 0.95 }}
                   className={`aspect-square relative flex flex-col items-center justify-center text-sm rounded-2xl transition-all ${
                     isToday
                       ? "bg-orange-500 text-white font-bold shadow-lg shadow-orange-200"
@@ -347,47 +358,51 @@ const EventCalendar = () => {
               upcomingEvents.map((event, index) => (
                 <div
                   key={event.id}
-                  className="group bg-white rounded-[24px] p-5 border border-gray-100 shadow-[0_4px_20px_rgb(0,0,0,0.03)] hover:shadow-[0_8px_30px_rgb(0,0,0,0.06)] transition-all relative overflow-hidden"
+                  className="group bg-white rounded-[32px] p-4 border border-gray-100 shadow-[0_8px_30px_rgb(0,0,0,0.02)] hover:shadow-[0_15px_40px_rgb(0,0,0,0.05)] transition-all relative flex items-center gap-4"
                 >
-                  <div className={`absolute top-0 left-0 bottom-0 w-1.5 ${getEventTypeColor(event.type)}`} />
-                  <div className="flex items-start justify-between gap-4">
-                    <div className="flex-1">
-                      <h4 className="font-bold text-gray-900 text-lg leading-tight mb-2 group-hover:text-orange-600 transition-colors">
-                        {event.title}
-                      </h4>
-                      <div className="flex flex-wrap gap-3 text-[13px] font-medium text-gray-500">
-                        <div className="flex items-center gap-1.5 py-1 px-2.5 bg-gray-50 rounded-lg">
-                          <FaCalendarAlt className="text-orange-400" />
-                          {event.date.toLocaleDateString("en-US", { month: "short", day: "numeric" })}
-                        </div>
-                        <div className="flex items-center gap-1.5 py-1 px-2.5 bg-gray-50 rounded-lg">
-                          <span className="w-1.5 h-1.5 rounded-full bg-orange-400" />
-                          {event.time}
-                        </div>
-                        <div className="flex items-center gap-1.5 py-1 px-2.5 bg-gray-50 rounded-lg w-full mt-1">
-                          <span className="text-gray-400">@</span>
-                          <span className="truncate">{event.location}</span>
-                        </div>
-                      </div>
+                  {/* Date Badge */}
+                  <div className={`flex-shrink-0 w-16 h-16 rounded-2xl flex flex-col items-center justify-center transition-transform group-hover:scale-105 duration-300 ${getEventTypeColorLight(event.type)}`}>
+                    <span className={`text-[10px] font-bold uppercase tracking-wider mb-0.5 ${getEventTextColor(event.type)}`}>
+                      {event.date.toLocaleDateString("en-US", { month: "short" })}
+                    </span>
+                    <span className={`text-2xl font-black leading-none ${getEventTextColor(event.type)}`}>
+                      {event.date.getDate()}
+                    </span>
+                  </div>
+
+                  <div className="flex-1 min-w-0">
+                    <div className="flex items-center gap-2 mb-1.5">
+                      <span className={`text-[9px] font-extrabold px-2 py-0.5 rounded-full uppercase tracking-wider ${getEventTypeColorLight(event.type)} ${getEventTextColor(event.type)}`}>
+                        {event.type}
+                      </span>
+                      <span className="text-[11px] text-gray-400 font-bold tracking-tight">{event.time}</span>
                     </div>
-                    <div className="flex flex-col gap-2">
-                      <button
-                        whileTap={{ scale: 0.9 }}
-                        onClick={() => handleShare(event)}
-                        className="p-3 rounded-2xl bg-gray-50 text-gray-700 hover:bg-orange-50 hover:text-orange-600 transition-all border border-transparent hover:border-orange-100 shadow-sm"
-                        title="Share Event"
-                      >
-                        <ShareIcon />
-                      </button>
-                      <button
-                        whileTap={{ scale: 0.9 }}
-                        onClick={() => handleAddToCalendar(event)}
-                        className="p-3 rounded-2xl bg-gray-50 text-gray-700 hover:bg-orange-50 hover:text-orange-600 transition-all border border-transparent hover:border-orange-100 shadow-sm"
-                        title="Add to Calendar"
-                      >
-                        <FaCalendarPlus size={16} />
-                      </button>
+                    
+                    <h4 className="font-bold text-gray-900 text-base leading-tight mb-1 truncate group-hover:text-orange-500 transition-colors">
+                      {event.title}
+                    </h4>
+                    
+                    <div className="flex items-center gap-1 text-[11px] font-medium text-gray-400">
+                      <span className="opacity-60">@</span>
+                      <span className="truncate">{event.location}</span>
                     </div>
+                  </div>
+
+                  <div className="flex flex-col gap-1.5 pr-1">
+                    <button
+                      onClick={() => handleShare(event)}
+                      className="p-2.5 rounded-full bg-gray-50 text-gray-400 hover:bg-orange-50 hover:text-orange-500 transition-all border border-transparent hover:border-orange-100"
+                      title="Share Event"
+                    >
+                      <ShareIcon className="w-4 h-4" />
+                    </button>
+                    <button
+                      onClick={() => handleAddToCalendar(event)}
+                      className="p-2.5 rounded-full bg-gray-50 text-gray-400 hover:bg-orange-50 hover:text-orange-500 transition-all border border-transparent hover:border-orange-100"
+                      title="Add to Calendar"
+                    >
+                      <FaCalendarPlus size={14} />
+                    </button>
                   </div>
                 </div>
               ))
