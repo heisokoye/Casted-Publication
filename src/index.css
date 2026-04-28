@@ -33,13 +33,15 @@
   font-display: swap;
 }
 
-html, body {
+html,
+body {
   overflow-x: hidden;
   width: 100%;
   font-family: 'Google Sans', sans-serif;
 }
 
 @layer components {
+
   /* Quill / rich HTML: keep embedded media within the column on all viewports */
   .post-content {
     @apply w-full min-w-0;
@@ -47,24 +49,30 @@ html, body {
     word-break: normal;
     line-height: 1.8;
   }
+
   .post-content :where(p) {
     margin: 0 0 1rem;
   }
+
   .post-content :where(p:last-child) {
     margin-bottom: 0;
   }
+
   .post-content :where(img, video, iframe) {
     max-width: 100% !important;
     height: auto !important;
   }
+
   .post-content :where(table) {
     display: block;
     max-width: 100%;
     overflow-x: auto;
   }
+
   .post-content :where(pre, code) {
     max-width: 100%;
   }
+
   .post-content :where(pre) {
     overflow-x: auto;
   }
@@ -75,9 +83,11 @@ html, body {
     overflow-wrap: break-word;
     word-break: normal;
   }
+
   .ql-editor p {
     margin: 0 0 1rem;
   }
+
   .ql-editor p:last-child {
     margin-bottom: 0;
   }

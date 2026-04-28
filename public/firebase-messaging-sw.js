@@ -22,13 +22,12 @@ const messaging = self.firebase.messaging();
 messaging.onBackgroundMessage((payload) => {
   console.log("Background message received:", payload);
 
-  const { title = "Casted Update", body = "Open the app to learn more.", icon, badge, image, url = "/" } = payload.data || {};
+  const { title = "Casted Update", body = "Open the app to learn more.", icon, badge, url = "/" } = payload.data || {};
 
   const options = {
     body,
-    icon: icon || "/public/pcastedicon.png",
-    badge: badge || "/public/castedicon.png",
-    image: image || "/public/gender.png",
+    icon: icon || "/castedicon.png",
+    badge: badge || "/castedicon.png",
     data: { url },
     tag: "casted-update", // prevents duplicate notifications
   };
