@@ -86,10 +86,7 @@ const Admin = () => {
 
     {/* RIGHT SIDE (AUTH FORM) */}
     <div className="w-full lg:w-1/2 flex items-center justify-center bg-white px-6">
-      <motion.div
-        initial={{ opacity: 0, x: 40 }}
-        animate={{ opacity: 1, x: 0 }}
-        transition={{ duration: 0.5 }}
+      <div
         className="w-full max-w-md"
       >
         <div className="p-8">
@@ -185,7 +182,7 @@ const Admin = () => {
             Restricted to Publishers & Writers only
           </p>
         </div>
-      </motion.div>
+      </div>
     </div>
   </div>
 )

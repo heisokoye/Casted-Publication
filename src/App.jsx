@@ -7,6 +7,7 @@ import Footer from "./components/footer/Footer";
 import ProtectedRoute from "./pages/admin/ProtectedRoute";
 import Loader from "./components/loader/Loader";
 import AnalyticsTracker from "./components/analytics/AnalyticsTracker";
+import NotificationManager from "./components/notifications/NotificationManager";
 
 // Firebase
 import { messaging } from "./Firebase";
@@ -57,6 +58,7 @@ const App = () => {
   return (
     <main>
       <BrowserRouter>
+        <NotificationManager />
         <AnalyticsTracker />
         <Navbar />
 
