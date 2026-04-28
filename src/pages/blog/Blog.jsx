@@ -110,7 +110,7 @@ const Blog = () => {
                             className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"
                           />
                         </div>
-                        <h4 className="font-medium text-[15px] text-gray-900 leading-snug line-clamp-2 group-hover:text-blue-600 transition-colors">
+                        <h4 className="font-medium text-[15px] text-gray-900 leading-snug line-clamp-2 group-hover:text-amber-600 transition-colors">
                           {post.title}
                         </h4>
                       </Link>
@@ -139,7 +139,7 @@ const Blog = () => {
                           className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
                         />
                       </div>
-                      <h3 className="text-[22px] font-medium text-gray-900 leading-snug mb-3 group-hover:text-blue-600 transition-colors line-clamp-2">
+                      <h3 className="text-[22px] font-medium text-gray-900 leading-snug mb-3 group-hover:text-amber-600 transition-colors line-clamp-2">
                         {post.title}
                       </h3>
                       <p className="text-gray-600 text-[15px] mb-5 line-clamp-2 leading-relaxed flex-grow">
