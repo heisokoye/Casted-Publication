@@ -14,16 +14,8 @@ const Hero = () => {
     const heroRef = useRef(null);
     const sliderRef = useRef(null);
 
-    // Data for the slider previews
-    // Example of a commented-out slide
-    // {
-    //     pictures: "/101.jpg",
-    //     titles: "Did you Know?",
-    //     excerpt: "Casted! Publications began in the most unexpected way — a debate over a sex film sparked its creation. ",
-    // },
     const preview = [
         { pictures: "pitch.png", loading: "lazy" },
-        { pictures: "tedx.png", loading: "lazy" },
     ];
 
     // Function to go to the previous slide
@@ -63,25 +55,6 @@ const Hero = () => {
         }),
     };
 
-    // Animation variants for the text container within the slide
-    const textContainerVariants = {
-        hidden: { opacity: 0 },
-        visible: (direction) => ({
-            opacity: 1,
-            transition: {
-                delayChildren: direction === 0 ? 0 : 0.4, // No delay on initial load for better FCP
-                staggerChildren: 0.1, // Stagger the animation of child elements
-            },
-        }),
-        exit: { opacity: 0, transition: { duration: 0.2 } },
-    };
-
-    // Animation variants for individual text items (title and excerpt)
-    const textItemVariants = {
-        hidden: { y: 20, opacity: 0 },
-        visible: { y: 0, opacity: 1, transition: { duration: 0.5, ease: "easeOut" } },
-        exit: { y: -20, opacity: 0, transition: { duration: 0.3, ease: "easeIn" } },
-    };
 
     // Animation variants for the arrow icon on the subscribe button
     const arrowVariants = {
@@ -150,28 +123,6 @@ const Hero = () => {
                                         width={1280}
                                         height={720}
                                     />
-                                    {/* Overlay with text content */}
-                                    <motion.div
-                                        className="absolute bottom-0 left-0 w-full p-4 `bg-gradient-to-t` from-black/70 to-transparent rounded-b-lg"
-                                        variants={textContainerVariants}
-                                        initial={currentSlide === 0 && direction === 0 ? "visible" : "hidden"}
-                                        animate="visible"
-                                        exit="exit"
-                                        custom={direction}
-                                    >
-                                        {/* Slide title */}
-                                        {currentSlide === 0 && direction === 0 ? (
-                                            <h3 className="text-white text-xl font-semibold mb-2">{preview[currentSlide].titles}</h3>
-                                        ) : (
-                                            <motion.h3 variants={textItemVariants} className="text-white text-xl font-semibold mb-2">{preview[currentSlide].titles}</motion.h3>
-                                        )}
-                                        {/* Slide excerpt */}
-                                        {currentSlide === 0 && direction === 0 && preview[currentSlide].excerpt ? (
-                                            <p className="text-gray-200">{preview[currentSlide].excerpt}</p>
-                                        ) : preview[currentSlide].excerpt ? (
-                                            <motion.p variants={textItemVariants} className="text-gray-200">{preview[currentSlide].excerpt}</motion.p>
-                                        ) : null}
-                                    </motion.div>
                                 </motion.div>
                             </AnimatePresence>
                             {/* Slider navigation arrows */}

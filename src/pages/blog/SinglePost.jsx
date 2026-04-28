@@ -188,55 +188,6 @@ const SinglePost = () => {
               className="post-content prose prose-sm max-w-none text-gray-800 sm:prose-base lg:prose-lg w-full"
               dangerouslySetInnerHTML={{ __html: normalizedPostContent }}
             />
-            
-            {/* Social Sharing Buttons - Mobile Only */}
-            <div className="mt-8 border-t border-gray-200 pt-6 md:hidden">
-              <div className="flex flex-col items-stretch sm:items-center">
-                <h3 className="mb-4 text-center text-base font-semibold text-gray-700 sm:text-lg">
-                  Share this post
-                </h3>
-                <div className="flex flex-wrap items-center justify-center gap-3 sm:gap-4">
-                  <button
-                    onClick={() => handleShare("twitter")}
-                    className="flex items-center justify-center w-12 h-12 rounded-full bg-blue-400 text-white hover:bg-blue-500 transition-colors duration-300 shadow-md"
-                    aria-label="Share on Twitter"
-                  >
-                    <FaTwitter size={20} />
-                  </button>
-                  <button
-                    onClick={() => handleShare("facebook")}
-                    className="flex items-center justify-center w-12 h-12 rounded-full bg-blue-600 text-white hover:bg-blue-700 transition-colors duration-300 shadow-md"
-                    aria-label="Share on Facebook"
-                  >
-                    <FaFacebook size={20} />
-                  </button>
-                  <button
-                    onClick={() => handleShare("linkedin")}
-                    className="flex items-center justify-center w-12 h-12 rounded-full bg-blue-700 text-white hover:bg-blue-800 transition-colors duration-300 shadow-md"
-                    aria-label="Share on LinkedIn"
-                  >
-                    <FaLinkedin size={20} />
-                  </button>
-                  <button
-                    onClick={() => handleShare("whatsapp")}
-                    className="flex items-center justify-center w-12 h-12 rounded-full bg-green-500 text-white hover:bg-green-600 transition-colors duration-300 shadow-md"
-                    aria-label="Share on WhatsApp"
-                  >
-                    <FaWhatsapp size={20} />
-                  </button>
-                  {canNativeShare && (
-                    <button
-                      onClick={() => handleShare("native")}
-                      className="flex h-12 w-12 items-center justify-center rounded-full bg-orange-500 text-white shadow-md transition-colors duration-300 hover:bg-orange-600"
-                      type="button"
-                      aria-label="Share via native share"
-                    >
-                      <FaShareAlt size={20} />
-                    </button>
-                  )}
-                </div>
-              </div>
-            </div>
           </article>
         )}
       </div>

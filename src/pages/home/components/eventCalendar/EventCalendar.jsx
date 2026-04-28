@@ -28,22 +28,6 @@ const EventCalendar = () => {
   const [events] = useState([
     {
       id: 1,
-      title: "BUSA Basketball League Final - First of Three: TBK v Vikings",
-      date: new Date(2026, 0, 9), 
-      time: "4:00 PM",
-      location: "Field",
-      type: "sports",
-    },
-    {
-      id: 2,
-      title: "BUSA Football League Semi-Final: Pirates v Kings FC",
-      date: new Date(2026, 0, 9), 
-      time: "4:00 PM",
-      location: "Field",
-      type: "sports",
-    },
-    {
-      id: 3,
       title: "TEDxBellsTech 2026: Wildcard",
       date: new Date(2026, 3, 25),
       time: "TBD",
@@ -132,10 +116,7 @@ const EventCalendar = () => {
   return (
     <section className="py-16 border-b border-gray-100 md:hidden lg:hidden bg-gray-50/50">
       <div className="mx-auto w-[92%]">
-        <motion.div 
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
+        <div 
           className="text-center mb-10"
         >
           <div className="flex items-center justify-center gap-3 mb-3">
@@ -147,42 +128,37 @@ const EventCalendar = () => {
             </h2>
           </div>
           <p className="text-gray-500 font-medium">Stay updated with campus events</p>
-        </motion.div>
+        </div>
 
-        <motion.div 
+        <div 
           initial={{ opacity: 0, scale: 0.95 }}
           whileInView={{ opacity: 1, scale: 1 }}
           viewport={{ once: true }}
           className="bg-white rounded-3xl shadow-[0_8px_30px_rgb(0,0,0,0.04)] border border-gray-100 p-6 mb-8 overflow-hidden"
         >
           <div className="flex items-center justify-between mb-8">
-            <motion.button
+            <button
               whileTap={{ scale: 0.9 }}
               onClick={goToPreviousMonth}
               className="p-3 rounded-2xl bg-gray-50 text-gray-600 hover:bg-gray-100 transition-all"
             >
               <FaChevronLeft className="text-sm" />
-            </motion.button>
+            </button>
             
-            <AnimatePresence mode="wait">
-              <motion.h4 
+              <h4 
                 key={currentMonth.getTime()}
-                initial={{ opacity: 0, y: 10 }}
-                animate={{ opacity: 1, y: 0 }}
-                exit={{ opacity: 0, y: -10 }}
                 className="text-xl font-bold text-gray-900"
               >
                 {monthNames[currentMonth.getMonth()]} {currentMonth.getFullYear()}
-              </motion.h4>
-            </AnimatePresence>
+              </h4>
 
-            <motion.button
+            <button
               whileTap={{ scale: 0.9 }}
               onClick={goToNextMonth}
               className="p-3 rounded-2xl bg-gray-50 text-gray-600 hover:bg-gray-100 transition-all"
             >
               <FaChevronRight className="text-sm" />
-            </motion.button>
+            </button>
           </div>
 
           <div className="grid grid-cols-7 gap-1 mb-4">
@@ -204,7 +180,7 @@ const EventCalendar = () => {
               const isToday = day === today.getDate() && currentMonth.getMonth() === today.getMonth() && currentMonth.getFullYear() === today.getFullYear();
 
               return (
-                <motion.div
+                <div
                   key={day}
                   whileTap={{ scale: 0.95 }}
                   className={`aspect-square relative flex flex-col items-center justify-center text-sm rounded-2xl transition-all ${
@@ -230,11 +206,11 @@ const EventCalendar = () => {
                       ))}
                     </div>
                   )}
-                </motion.div>
+                </div>
               );
             })}
           </div>
-        </motion.div>
+        </div>
 
         <div className="space-y-4">
           <div className="flex items-center justify-between mb-2">
