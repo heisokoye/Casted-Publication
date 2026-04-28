@@ -25,7 +25,11 @@ const Home = () => {
                 <meta name="author" content="Bells University Media, Casted! Publications" />
                 <link rel="preload" href="/bg.webp" as="image" />
             </Helmet>
-            <div className="bg-[url('/bg.webp')] bg-no-repeat bg-cover lg:bg-[url('/v4.webp')]"> 
+        <div className="relative min-h-screen">
+            {/* Fixed Background Layer for better performance and scaling */}
+            <div className="fixed inset-0 -z-10 bg-[url('/bg.webp')] lg:bg-[url('/v4.webp')] bg-no-repeat bg-cover bg-center" aria-hidden="true" />
+            
+            <div className=""> 
                 {/* Hero section - no initial animation to improve FCP */}
                 <div>
                     <Hero className="flex justify-center items-center"/>
@@ -71,7 +75,8 @@ const Home = () => {
                     <Partners/>
                 </Suspense>
             </div>
-        </>
+        </div>
+    </>
     )
 }
 
