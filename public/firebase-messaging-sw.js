@@ -29,7 +29,9 @@ messaging.onBackgroundMessage((payload) => {
     body: data.body || notification.body || "Open the app to learn more.",
     icon: data.icon || "/castedicon.png",
     badge: data.badge || "/castedicon.png",
-    data: { url: data.url || "/" },
+    data: { 
+      url: data.url || notification.click_action || "/" 
+    },
     tag: "casted-update", // prevents duplicate notifications
   };
 
@@ -42,15 +44,25 @@ messaging.onBackgroundMessage((payload) => {
 // Handle notification clicks
 self.addEventListener("notificationclick", (event) => {
   event.notification.close();
-  const destinationUrl = event.notification.data?.url || "/";
+  
+  // Get the URL from notification data, defaulting to root
+  const urlToOpen = event.notification.data?.url || "/";
+  
+  // Create a full URL object to handle both relative and absolute paths
+  const targetUrl = new URL(urlToOpen, self.location.origin).href;
 
   event.waitUntil(
     self.clients.matchAll({ type: "window", includeUncontrolled: true }).then((clients) => {
+      // Try to find an existing window with the same URL and focus it
       for (const client of clients) {
-        if (client.url === destinationUrl && "focus" in client) return client.focus();
+        if (client.url === targetUrl && "focus" in client) {
+          return client.focus();
+        }
       }
-      if (self.clients.openWindow) return self.clients.openWindow(destinationUrl);
-      return null;
+      // If no existing window or it's an external link, open a new one
+      if (self.clients.openWindow) {
+        return self.clients.openWindow(targetUrl);
+      }
     })
   );
 });
