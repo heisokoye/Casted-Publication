@@ -153,6 +153,30 @@ const EventCalendar = () => {
       location: "Bells University",
       type: "cultural",
     },
+    {
+      id: 17,
+      title: "BUSA's The Great Gatsby",
+      date: new Date(2026, 4, 23),
+      time: "TBD",
+      location: "Bells University",
+      type: "cultural",
+    },
+    {
+      id: 18,
+      title: "Ankara Fest",
+      date: new Date(2026, 4, 5),
+      time: "TBD",
+      location: "Bells University",
+      type: "cultural",
+    },
+    {
+      id: 19,
+      title: "NESA Annual Conference",
+      date: new Date(2026, 4, 5),
+      time: "TBD",
+      location: "Bells University",
+      type: "academic",
+    },
   ]);
 
   const [currentMonth, setCurrentMonth] = useState(new Date());
