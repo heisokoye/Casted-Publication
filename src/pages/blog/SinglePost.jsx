@@ -128,17 +128,6 @@ const SinglePost = () => {
         </Helmet>
       )}
       <div className="mx-auto w-full min-w-0 max-w-3xl 2xl:max-w-4xl px-4 sm:px-6 lg:px-8">
-        {/* Back button */}
-        <div className="mb-6">
-          <Link
-            to="/blog"
-            className="inline-flex items-center gap-2 text-sm font-medium text-gray-500 hover:text-amber-600 transition-colors"
-          >
-            <BsArrowLeft className="w-4 h-4" />
-            Back to blog
-          </Link>
-        </div>
-
         {/* Conditional rendering: show loader while fetching, otherwise show post content. */}
         {isLoading ? (
           <div className="animate-pulse w-full max-w-full bg-white mt-8">
@@ -195,7 +184,7 @@ const SinglePost = () => {
               </h1>
               
               {/* Metadata and Share Bar */}
-              <div className="mb-6 flex flex-wrap items-center justify-between gap-4 py-4 border-y border-gray-100">
+              <div className="mb-6 flex flex-wrap items-center justify-between gap-4 py-4">
                 <div className="flex flex-col gap-1 text-sm text-gray-500 sm:flex-row sm:flex-wrap sm:items-center sm:gap-x-4 sm:gap-y-0 sm:text-base">
                   <p className="font-medium text-gray-800">By {post.author || "Admin"}</p>
                   <span className="hidden sm:inline text-gray-300">•</span>
