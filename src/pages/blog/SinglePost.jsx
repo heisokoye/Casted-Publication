@@ -5,7 +5,8 @@ import { db } from "../../Firebase"; // adjust path if needed
 
 import "../../App.css"
 import { BsArrowLeft } from "react-icons/bs";
-import { FaTwitter, FaFacebook, FaLinkedin, FaWhatsapp, FaShareAlt } from "react-icons/fa";
+import { FaLink } from "react-icons/fa";
+import { IoShareOutline } from "react-icons/io5";
 import { Helmet } from "react-helmet-async";
 import { normalizeRichTextHtml } from "../../utils/richText";
 
@@ -20,13 +21,7 @@ const SinglePost = () => {
   const [post, setPost] = useState(null);
   // State to manage the loading status.
   const [isLoading, setIsLoading] = useState(false);
-  const [canNativeShare, setCanNativeShare] = useState(false);
-
-  useEffect(() => {
-    setCanNativeShare(
-      typeof navigator !== "undefined" && typeof navigator.share === "function"
-    );
-  }, []);
+  const [isCopied, setIsCopied] = useState(false);
 
   // useEffect hook to fetch the post data when the component mounts or the ID changes.
   useEffect(() => {
@@ -50,45 +45,39 @@ const SinglePost = () => {
     return doc.body.textContent || "";
   };
 
-  // Function to handle social sharing
-  const handleShare = (platform) => {
-    const postUrl = `${window.location.origin}/post/${id}`;
-    const sharePreviewUrl = `${window.location.origin}/share/post/${id}`;
-    const postTitle = post?.title || "Check out this post from Casted! Publications";
-    const shareText = `${postTitle} - ${sharePreviewUrl}`;
+  // Function to handle unified sharing (like in BlogPreview.jsx)
+  const handleShare = (e) => {
+    if (e) {
+      e.preventDefault();
+      e.stopPropagation();
+    }
+    if (!post) return;
 
-    let shareUrl = "";
-    
-    switch (platform) {
-      case "twitter":
-        shareUrl = `https://twitter.com/intent/tweet?text=${encodeURIComponent(postTitle)}&url=${encodeURIComponent(sharePreviewUrl)}`;
-        break;
-      case "facebook":
-        shareUrl = `https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(sharePreviewUrl)}`;
-        break;
-      case "linkedin":
-        shareUrl = `https://www.linkedin.com/sharing/share-offsite/?url=${encodeURIComponent(sharePreviewUrl)}`;
-        break;
-      case "whatsapp":
-        // Keep only the link so WhatsApp reliably generates OG preview cards.
-        shareUrl = `https://wa.me/?text=${encodeURIComponent(sharePreviewUrl)}`;
-        break;
-      case "native":
-        if (navigator.share) {
-          navigator.share({
-            title: postTitle,
-            text: post?.content ? stripHtml(post.content).substring(0, 100) : "",
-            url: postUrl,
-          }).catch(() => {});
-        }
-        return;
-      default:
-        return;
+    // Use sharePreviewUrl for crawlers to pick up meta tags, fallback to main domain/url
+    const shareUrl = `${window.location.origin}/share/post/${id}`;
+
+    if (navigator.share) {
+      navigator.share({
+        title: post.title,
+        url: shareUrl,
+      }).catch(console.error);
+    } else {
+      const whatsappUrl = `https://wa.me/?text=${encodeURIComponent(shareUrl)}`;
+      window.open(whatsappUrl, '_blank', 'width=600,height=600');
     }
-    
-    if (shareUrl) {
-      window.open(shareUrl, "_blank", "width=600,height=400");
-    }
+  };
+
+  // Function to copy the direct post URL
+  const handleCopyLink = () => {
+    const postUrl = `${window.location.origin}/post/${id}`;
+    navigator.clipboard.writeText(postUrl)
+      .then(() => {
+        setIsCopied(true);
+        setTimeout(() => setIsCopied(false), 2000);
+      })
+      .catch((err) => {
+        console.error("Failed to copy URL: ", err);
+      });
   };
 
   // Display a message if no post is found and loading has finished.
@@ -139,6 +128,17 @@ const SinglePost = () => {
         </Helmet>
       )}
       <div className="mx-auto w-full min-w-0 max-w-3xl 2xl:max-w-4xl px-4 sm:px-6 lg:px-8">
+        {/* Back button */}
+        <div className="mb-6">
+          <Link
+            to="/blog"
+            className="inline-flex items-center gap-2 text-sm font-medium text-gray-500 hover:text-amber-600 transition-colors"
+          >
+            <BsArrowLeft className="w-4 h-4" />
+            Back to blog
+          </Link>
+        </div>
+
         {/* Conditional rendering: show loader while fetching, otherwise show post content. */}
         {isLoading ? (
           <div className="animate-pulse w-full max-w-full bg-white mt-8">
@@ -160,35 +160,128 @@ const SinglePost = () => {
              </div>
           </div>
         ) : (
-          <article className="w-full min-w-0 max-w-full bg-white">
-            {/* Display post title. */}
-            <h1 className="text-2xl sm:text-3xl mt-10 md:text-4xl font-bold text-gray-800 mb-3 sm:mb-4 break-words">
-              {post.title}
-            </h1>
-            <div className="mb-6 flex flex-col gap-1 text-sm text-gray-500 sm:flex-row sm:flex-wrap sm:items-center sm:gap-x-4 sm:gap-y-0 sm:text-base">
-              {/* Display post author, defaulting to "Admin" if not available. */}
-              <p>By {post.author || "Admin"}</p>
-              {/* Display formatted creation date. */}
-              <p>
-                {post.createdAt?.toDate().toLocaleDateString("en-US", {
-                  year: "numeric",
-                  month: "long",
-                  day: "numeric",
-                })}
-              </p>
+          <div className="relative w-full">
+            {/* Sticky Share Sidebar (Desktop Only) */}
+            <div className="hidden xl:flex flex-col items-center gap-3 sticky top-32 float-left -ml-20 w-12 py-4 bg-gray-50 border border-gray-100 rounded-2xl shadow-xs">
+              <button
+                onClick={handleShare}
+                className="p-2 text-gray-400 hover:text-orange-500 hover:bg-white rounded-xl transition-all duration-200"
+                title="Share Post"
+                aria-label="Share Post"
+              >
+                <IoShareOutline className="w-5 h-5" />
+              </button>
+              <div className="relative">
+                <button
+                  onClick={handleCopyLink}
+                  className="p-2 text-gray-400 hover:text-orange-500 hover:bg-white rounded-xl transition-all duration-200"
+                  title="Copy Link"
+                  aria-label="Copy Link"
+                >
+                  <FaLink className="w-5 h-5" />
+                </button>
+                {isCopied && (
+                  <span className="absolute bottom-full left-1/2 -translate-x-1/2 mb-2 px-2 py-1 text-xs text-white bg-gray-900 rounded shadow-md whitespace-nowrap z-50">
+                    Copied!
+                  </span>
+                )}
+              </div>
             </div>
-            {/* Display post image. */}
-            <img
-              src={post.fileUrl}
-              alt={post.title}
-              className="mb-6 sm:mb-8 h-auto w-full max-h-[min(50vh,28rem)] rounded-xl object-cover shadow-md sm:max-h-[24rem] md:max-h-[28rem] lg:rounded-2xl"
-            />
-            {/* Display post content, using dangerouslySetInnerHTML as content is HTML. */}
-            <div
-              className="post-content prose prose-sm max-w-none text-gray-800 sm:prose-base lg:prose-lg w-full"
-              dangerouslySetInnerHTML={{ __html: normalizedPostContent }}
-            />
-          </article>
+
+            <article className="w-full min-w-0 max-w-full bg-white">
+              {/* Display post title. */}
+              <h1 className="text-2xl sm:text-3xl mt-10 md:text-4xl font-bold text-gray-800 mb-3 sm:mb-4 break-words">
+                {post.title}
+              </h1>
+              
+              {/* Metadata and Share Bar */}
+              <div className="mb-6 flex flex-wrap items-center justify-between gap-4 py-4 border-y border-gray-100">
+                <div className="flex flex-col gap-1 text-sm text-gray-500 sm:flex-row sm:flex-wrap sm:items-center sm:gap-x-4 sm:gap-y-0 sm:text-base">
+                  <p className="font-medium text-gray-800">By {post.author || "Admin"}</p>
+                  <span className="hidden sm:inline text-gray-300">•</span>
+                  <p>
+                    {post.createdAt?.toDate().toLocaleDateString("en-US", {
+                      year: "numeric",
+                      month: "long",
+                      day: "numeric",
+                    })}
+                  </p>
+                </div>
+
+                <div className="flex items-center gap-1.5 sm:gap-2">
+                  <span className="text-xs font-semibold tracking-wider text-gray-400 uppercase mr-1">Share:</span>
+                  <button
+                    onClick={handleShare}
+                    className="p-2 text-gray-500 hover:text-orange-500 hover:bg-gray-50 rounded-full transition-all duration-200"
+                    title="Share Post"
+                    aria-label="Share Post"
+                  >
+                    <IoShareOutline className="w-4 h-4 cursor-pointer" />
+                  </button>
+                  <div className="relative">
+                    <button
+                      onClick={handleCopyLink}
+                      className="p-2 text-gray-500 hover:text-orange-500 hover:bg-gray-50 rounded-full transition-all duration-200"
+                      title="Copy Link"
+                      aria-label="Copy Link"
+                    >
+                      <FaLink className="w-4 h-4" />
+                    </button>
+                    {isCopied && (
+                      <span className="absolute bottom-full left-1/2 -translate-x-1/2 mb-2 px-2 py-1 text-xs text-white bg-gray-900 rounded shadow-md whitespace-nowrap z-50 animate-fade-in">
+                        Copied!
+                      </span>
+                    )}
+                  </div>
+                </div>
+              </div>
+
+              {/* Display post image. */}
+              <img
+                src={post.fileUrl}
+                alt={post.title}
+                className="mb-6 sm:mb-8 h-auto w-full max-h-[min(50vh,28rem)] rounded-xl object-cover shadow-md sm:max-h-[24rem] md:max-h-[28rem] lg:rounded-2xl"
+              />
+              {/* Display post content, using dangerouslySetInnerHTML as content is HTML. */}
+              <div
+                className="post-content prose prose-sm max-w-none text-gray-800 sm:prose-base lg:prose-lg w-full"
+                dangerouslySetInnerHTML={{ __html: normalizedPostContent }}
+              />
+
+              {/* Post Footer / Share Card */}
+              <div className="mt-12 p-6 sm:p-8 bg-gray-50 rounded-2xl border border-gray-100 flex flex-col md:flex-row md:items-center justify-between gap-6">
+                <div>
+                  <h3 className="text-lg font-bold text-gray-900 mb-1">Enjoyed this article?</h3>
+                  <p className="text-sm text-gray-500">Share it with your friends and network to help spread the word.</p>
+                </div>
+                <div className="flex items-center gap-3">
+                  <button
+                    onClick={handleShare}
+                    className="flex items-center justify-center w-11 h-11 text-white bg-orange-500 hover:bg-orange-600 hover:scale-105 rounded-xl transition-all duration-200 shadow-sm"
+                    title="Share Post"
+                    aria-label="Share Post"
+                  >
+                    <IoShareOutline className="w-5 h-5" />
+                  </button>
+                  <div className="relative">
+                    <button
+                      onClick={handleCopyLink}
+                      className="flex items-center justify-center w-11 h-11 text-gray-700 bg-white border border-gray-200 hover:bg-gray-50 hover:scale-105 rounded-xl transition-all duration-200 shadow-sm"
+                      title="Copy Link"
+                      aria-label="Copy Link"
+                    >
+                      <FaLink className="w-5 h-5" />
+                    </button>
+                    {isCopied && (
+                      <span className="absolute bottom-full left-1/2 -translate-x-1/2 mb-2 px-2 py-1 text-xs text-white bg-gray-900 rounded shadow-md whitespace-nowrap z-50">
+                        Copied!
+                      </span>
+                    )}
+                  </div>
+                </div>
+              </div>
+            </article>
+          </div>
         )}
       </div>
     </div>
