@@ -150,33 +150,6 @@ const SinglePost = () => {
           </div>
         ) : (
           <div className="relative w-full">
-            {/* Sticky Share Sidebar (Desktop Only) */}
-            <div className="hidden xl:flex flex-col items-center gap-3 sticky top-32 float-left -ml-20 w-12 py-4 bg-gray-50 border border-gray-100 rounded-2xl shadow-xs">
-              <button
-                onClick={handleShare}
-                className="p-2 text-gray-400 hover:text-orange-500 hover:bg-white rounded-xl transition-all duration-200"
-                title="Share Post"
-                aria-label="Share Post"
-              >
-                <IoShareOutline className="w-5 h-5" />
-              </button>
-              <div className="relative">
-                <button
-                  onClick={handleCopyLink}
-                  className="p-2 text-gray-400 hover:text-orange-500 hover:bg-white rounded-xl transition-all duration-200"
-                  title="Copy Link"
-                  aria-label="Copy Link"
-                >
-                  <FaLink className="w-5 h-5" />
-                </button>
-                {isCopied && (
-                  <span className="absolute bottom-full left-1/2 -translate-x-1/2 mb-2 px-2 py-1 text-xs text-white bg-gray-900 rounded shadow-md whitespace-nowrap z-50">
-                    Copied!
-                  </span>
-                )}
-              </div>
-            </div>
-
             <article className="w-full min-w-0 max-w-full bg-white">
               {/* Display post title. */}
               <h1 className="text-2xl sm:text-3xl mt-10 md:text-4xl font-bold text-gray-800 mb-3 sm:mb-4 break-words">
