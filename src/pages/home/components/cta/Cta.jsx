@@ -26,7 +26,7 @@ const Cta = () => {
   ]
 
   return (
-    <div className='relative z-10 py-16 lg:py-24 border-b border-gray-100 bg-gray-50/50'>
+    <div className='relative z-10 py-16 lg:py-24 border-b border-gray-100'>
       <section className='mx-auto w-[90%] lg:w-[80%] max-w-7xl flex flex-col items-center text-center'>
           
         <h2 className="text-gray-900 text-3xl md:text-4xl lg:text-5xl font-medium  leading-tight tracking-tight">
