@@ -3,7 +3,6 @@ import { collection, onSnapshot, doc, updateDoc, increment, query, orderBy } fro
 import { db } from "../../../../Firebase";
 
 import { Link } from "react-router-dom";
-import { motion } from "framer-motion";
 import { FaHeart, FaRegHeart } from "react-icons/fa";
 import { IoShareOutline } from "react-icons/io5";
 
@@ -11,7 +10,6 @@ import { IoShareOutline } from "react-icons/io5";
 const usePostActions = (post) => {
   const [isLiked, setIsLiked] = useState(false);
   const [likeCount, setLikeCount] = useState(0);
-  const [explode, setExplode] = useState(false);
 
   useEffect(() => {
     if (!post) return;
@@ -32,11 +30,6 @@ const usePostActions = (post) => {
 
     setIsLiked(!isCurrentlyLiked);
     setLikeCount((prev) => (isCurrentlyLiked ? prev - 1 : prev + 1));
-
-    if (!isCurrentlyLiked) {
-      setExplode(true);
-      setTimeout(() => setExplode(false), 800);
-    }
 
     const newLikedPosts = isCurrentlyLiked
       ? likedPosts.filter((id) => id !== post.id)
@@ -77,7 +70,7 @@ const usePostActions = (post) => {
     }
   };
 
-  return { isLiked, likeCount, explode, handleLike, handleShare };
+  return { isLiked, likeCount, handleLike, handleShare };
 };
 
 const getPreviewText = (html, limit = 150) => {
@@ -91,20 +84,14 @@ const getPreviewText = (html, limit = 150) => {
 // MOBILE VIEW CARD (Original Design)
 // ----------------------------------------------------
 const PostCard = ({ post, index }) => {
-  const { isLiked, likeCount, explode, handleLike, handleShare } = usePostActions(post);
-
-  const itemVariants = {
-    hidden: { y: 20, opacity: 0 },
-    visible: { y: 0, opacity: 1, transition: { type: "spring", stiffness: 100 } },
-  };
+  const { isLiked, likeCount, handleLike, handleShare } = usePostActions(post);
 
   return (
     <Link to={`/post/${post.id}`} key={post.id} className="block group">
       <div
         className="flex mb-12 rounded-2xl border border-gray-200 flex-col h-[23.75rem] cursor-pointer bg-white overflow-hidden shadow-sm hover:shadow-md transition-shadow"
-        variants={itemVariants}
       >
-        <div className="relative w-full h-48 flex-shrink-0">
+        <div className="relative w-full h-48 shrink-0">
           <img
             src={post.fileUrl}
             srcSet={`${post.fileUrl}?w=400 400w, ${post.fileUrl}?w=800 800w`}
@@ -116,7 +103,7 @@ const PostCard = ({ post, index }) => {
             fetchpriority={index === 0 ? "high" : "auto"}
           />
         </div>
-        <div className="flex flex-col flex-grow px-3 py-3">
+        <div className="flex flex-col grow px-3 py-3">
             <p className="font-medium text-[13px] text-gray-500 mb-1">
             {post.createdAt?.toDate().toLocaleDateString("en-US", {
                 year: "numeric",
@@ -127,7 +114,7 @@ const PostCard = ({ post, index }) => {
             <h3 className="font-medium text-gray-900 text-[17px] line-clamp-2 mb-2 group-hover:text-orange-500 transition-colors">
                 {post.title}
             </h3>
-            <p className="text-sm text-gray-600 line-clamp-2 flex-grow">
+            <p className="text-sm text-gray-600 line-clamp-2 grow">
               {React.useMemo(() => getPreviewText(post.content, 100), [post.content])}
             </p>
             <div className="flex items-center justify-between px-1 pt-3 mt-auto border-t border-gray-100 relative">
@@ -147,27 +134,6 @@ const PostCard = ({ post, index }) => {
                 >
                     <IoShareOutline size={20} className="cursor-pointer"/>
                 </button>
-                {explode && (
-                    <>
-                    {[...Array(20)].map((_, i) => (
-                        <motion.span
-                        key={i}
-                        className="absolute text-orange-500"
-                        style={{ top: '50%', left: '10%' }}
-                        initial={{ opacity: 1, scale: 0, x: 0, y: 0 }}
-                        animate={{
-                            opacity: 0,
-                            scale: 1.5,
-                            y: -30,
-                            x: (Math.random() - 0.5) * 60,
-                        }}
-                        transition={{ duration: 0.8, ease: 'easeOut' }}
-                        >
-                        <FaHeart />
-                        </motion.span>
-                    ))}
-                    </>
-                )}
             </div>
         </div>
       </div>
@@ -187,7 +153,7 @@ const DesktopMainCard = ({ post }) => {
     <div className="w-full lg:w-[65%]">
         <Link to={`/post/${post.id}`} className="block relative h-[450px] w-full rounded-2xl overflow-hidden group shadow-md hover:shadow-xl transition-shadow">
         <img src={post.fileUrl} className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105" alt={post.title} />
-        <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/30 to-transparent"></div>
+        <div className="absolute inset-0 bg-linear-to-t from-black/90 via-black/30 to-transparent"></div>
         
         <div className="absolute bottom-0 left-0 p-8 w-full flex justify-between items-end">
             <div className="w-[85%]">
@@ -225,7 +191,7 @@ const DesktopSideCard = ({ post }) => {
 
   return (
     <Link to={`/post/${post.id}`} className="flex gap-4 items-center group border-b border-gray-200 pb-5 last:border-0 last:pb-0 relative bg-transparent hover:bg-gray-50/50 p-2 rounded-xl transition-colors">
-      <div className="w-[100px] h-[72px] flex-shrink-0 rounded-lg overflow-hidden bg-gray-100 shadow-sm">
+      <div className="w-[100px] h-[72px] shrink-0 rounded-lg overflow-hidden bg-gray-100 shadow-sm">
         <img src={post.fileUrl} className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110" alt={post.title} />
       </div>
       <div className="flex flex-col justify-center h-full pr-14 w-full">
@@ -269,11 +235,6 @@ const BlogPreview = () => {
     });
     return () => unsubscribe();
   }, []);
-
-  const containerVariants = {
-    hidden: { opacity: 0 },
-    visible: { opacity: 1, transition: { staggerChildren: 0.15, delayChildren: 0.1 } },
-  };
 
   const desktopMain = posts[0];
   const desktopSide = posts.slice(1, 5); // Take next 4 for sidebar to make 5 total
@@ -323,25 +284,18 @@ const BlogPreview = () => {
         ) : (
           <>
             {/* Mobile View (Displays 4 standard cards) */}
-            <motion.section
+            <section
               className="grid lg:hidden grid-cols-1 sm:grid-cols-2 gap-8"
-              variants={containerVariants}
-              initial="hidden"
-              animate="visible"
             >
               {posts.slice(0, 4).map((post, index) => (
                 <PostCard post={post} key={post.id} index={index} />
               ))}
-            </motion.section>
+            </section>
 
             {/* Desktop View (Displays 1 main feature + 4 sidebar features) */}
             {posts.length > 0 && (
-                <motion.section 
+                <section 
                     className="hidden lg:flex flex-row gap-10"
-                    initial={{ opacity: 0, y: 20 }}
-                    whileInView={{ opacity: 1, y: 0 }}
-                    viewport={{ once: true, amount: 0.2 }}
-                    transition={{ duration: 0.6 }}
                 >
                     <DesktopMainCard post={desktopMain} />
                     
@@ -357,7 +311,7 @@ const BlogPreview = () => {
                             ))}
                         </div>
                     </div>
-                </motion.section>
+                </section>
             )}
           </>
         )}

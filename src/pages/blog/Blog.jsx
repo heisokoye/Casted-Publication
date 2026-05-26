@@ -34,7 +34,7 @@ const Blog = () => {
   const recentPosts = posts.slice(6);
 
   return (
-    <div className="bg-white min-h-screen py-16 font-sans">
+    <div className="bg-white min-h-screen py-20 font-sans">
       <div className="mx-auto w-[90%] md:w-[80%] max-w-7xl">
         
         {isLoading ? (
@@ -46,7 +46,7 @@ const Blog = () => {
                 <div className="h-8 bg-gray-200 rounded w-1/2 mb-2"></div>
                 {[...Array(4)].map((_, i) => (
                   <div key={i} className="flex gap-4 items-center border-b border-gray-100 pb-4">
-                    <div className="w-24 h-16 bg-gray-200 rounded-lg flex-shrink-0"></div>
+                    <div className="w-24 h-16 bg-gray-200 rounded-lg shrink-0"></div>
                     <div className="w-full h-8 bg-gray-200 rounded"></div>
                   </div>
                 ))}
