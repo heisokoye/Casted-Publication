@@ -213,7 +213,7 @@ const SinglePost = () => {
               {/* Post Footer / Share Card */}
               <div className="mt-12 p-6 sm:p-8 bg-gray-50 rounded-2xl border border-gray-100 flex flex-col md:flex-row md:items-center justify-between gap-6">
                 <div>
-                  <h3 className="text-lg font-bold text-gray-900 mb-1">Enjoyed this article?</h3>
+                  <h3 className="text-lg font-semibold text-gray-900 mb-1">Enjoyed this article?</h3>
                   <p className="text-sm text-gray-500">Share it with your friends and network to help spread the word.</p>
                 </div>
                 <div className="flex items-center gap-3">
@@ -228,7 +228,7 @@ const SinglePost = () => {
                   <div className="relative">
                     <button
                       onClick={handleCopyLink}
-                      className="flex items-center justify-center w-11 h-11 text-gray-700 bg-white border border-gray-200 hover:bg-gray-50 hover:scale-105 rounded-xl transition-all duration-200 shadow-sm"
+                      className="flex items-center justify-center w-11 h-11 text-black/80 bg-white border border-gray-200 hover:bg-gray-50 hover:scale-105 rounded-xl transition-all duration-200 "
                       title="Copy Link"
                       aria-label="Copy Link"
                     >

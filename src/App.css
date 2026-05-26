@@ -49,3 +49,23 @@
   box-shadow: 0 4px 12px rgba(0,0,0,0.15) !important;
   background: white !important;
 }
+
+/* Custom horizontal scrolling marquee for announcements */
+@keyframes marquee {
+  0% {
+    transform: translateX(0%);
+  }
+  100% {
+    transform: translateX(-50%);
+  }
+}
+
+.animate-marquee {
+  display: flex;
+  width: max-content;
+  animation: marquee 40s linear infinite;
+}
+
+.animate-marquee:hover {
+  animation-play-state: paused;
+}

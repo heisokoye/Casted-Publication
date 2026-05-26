@@ -27,150 +27,6 @@ const EventCalendar = () => {
   const [events] = useState([
     {
       id: 1,
-      title: "TEDxBellsTech 2026: Wildcard",
-      date: new Date(2026, 3, 25),
-      time: "TBD",
-      location: "Bells University of Technology",
-      type: "cultural",
-    },
-    {
-      id: 2,
-      title: "BUESA Brain Box 2026",
-      date: new Date(2026, 3, 29),
-      time: "TBD",
-      location: "Bells University",
-      type: "academic",
-    },
-    {
-      id: 3,
-      title: "BUSALYMPICS Final 2026",
-      date: new Date(2026, 4, 1),
-      time: "TBD",
-      location: "Bells University",
-      type: "sports",
-    },
-    {
-      id: 4,
-      title: "Afrofusion Campus Carnival",
-      date: new Date(2026, 4, 2),
-      time: "TBD",
-      location: "Bells University",
-      type: "cultural",
-    },
-    {
-      id: 5,
-      title: "BUESA Health Walk",
-      date: new Date(2026, 4, 4),
-      time: "TBD",
-      location: "Bells University",
-      type: "sports",
-    },
-    {
-      id: 6,
-      title: "BUESA Jersey Day",
-      date: new Date(2026, 4, 5),
-      time: "TBD",
-      location: "Bells University",
-      type: "cultural",
-    },
-    {
-      id: 7,
-      title: "Dean's Cup Final 2026",
-      date: new Date(2026, 4, 6),
-      time: "TBD",
-      location: "Bells University",
-      type: "sports",
-    },
-    {
-      id: 8,
-      title: "Engineering Tech Conference 2026",
-      date: new Date(2026, 4, 7),
-      time: "TBD",
-      location: "Bells University",
-      type: "academic",
-    },
-    {
-      id: 9,
-      title: "BUESA Movie Night",
-      date: new Date(2026, 4, 7),
-      time: "TBD",
-      location: "Bells University",
-      type: "cultural",
-    },
-    {
-      id: 10,
-      title: "Prof. Jeremiah Ojediran Pitchathon",
-      date: new Date(2026, 4, 7),
-      time: "TBD",
-      location: "Bells University",
-      type: "academic",
-    },
-    {
-      id: 15,
-      title: "Prof. Jeremiah Ojediran Pitchathon",
-      date: new Date(2026, 4, 8),
-      time: "TBD",
-      location: "Bells University",
-      type: "academic",
-    },
-    {
-      id: 16,
-      title: "Prof. Jeremiah Ojediran Pitchathon",
-      date: new Date(2026, 4, 9),
-      time: "TBD",
-      location: "Bells University",
-      type: "academic",
-    },
-    {
-      id: 11,
-      title: "COLMANSxCOLENVS 'The Ojude Oba Experience'",
-      date: new Date(2026, 4, 8),
-      time: "TBD",
-      location: "Bells University",
-      type: "cultural",
-    },
-    {
-      id: 12,
-      title: "NESA Sports Festival Hosted by Animashaun",
-      date: new Date(2026, 4, 9),
-      time: "TBD",
-      location: "Bells University",
-      type: "sports",
-    },
-    {
-      id: 13,
-      title: "Bells Fashion Runway",
-      date: new Date(2026, 4, 15),
-      time: "TBD",
-      location: "Bells University",
-      type: "cultural",
-    },
-    {
-      id: 14,
-      title: "BUESA Dinner 'Heirs in Disguise'",
-      date: new Date(2026, 4, 16),
-      time: "TBD",
-      location: "Bells University",
-      type: "cultural",
-    },
-    {
-      id: 17,
-      title: "BUSA's The Great Gatsby",
-      date: new Date(2026, 4, 23),
-      time: "TBD",
-      location: "Bells University",
-      type: "cultural",
-    },
-    {
-      id: 18,
-      title: "Ankara Fest",
-      date: new Date(2026, 4, 5),
-      time: "TBD",
-      location: "Bells University",
-      type: "cultural",
-    },
-    {
-      id: 19,
       title: "NESA Annual Conference",
       date: new Date(2026, 4, 5),
       time: "TBD",
@@ -312,14 +168,14 @@ const EventCalendar = () => {
               <FaCalendarAlt className="text-orange-500 text-2xl" />
             </div>
             <h2 className="text-gray-900 text-3xl font-medium tracking-tight">
-              Event <span className="bg-clip-text text-transparent bg-gradient-to-r from-orange-500 to-orange-600">Calendar</span>
+              Event <span className="bg-clip-text text-transparent bg-linear-to-r from-orange-500 to-orange-600">Calendar</span>
             </h2>
           </div>
           <p className="text-gray-500 font-medium">Stay updated with campus events</p>
         </div>
 
         <div 
-          className="bg-white rounded-3xl shadow-[0_8px_30px_rgb(0,0,0,0.04)] border border-gray-100 p-6 mb-8 overflow-hidden"
+          className="bg-white rounded-3xl border border-gray-100 p-6 mb-8 overflow-hidden"
         >
           <div className="flex items-center justify-between mb-8">
             <button
@@ -331,7 +187,7 @@ const EventCalendar = () => {
             
               <h4 
                 key={currentMonth.getTime()}
-                className="text-xl font-bold text-gray-900"
+                className="text-xl font-medium text-gray-900"
               >
                 {monthNames[currentMonth.getMonth()]} {currentMonth.getFullYear()}
               </h4>
@@ -368,9 +224,9 @@ const EventCalendar = () => {
                   onClick={() => handleDayClick(day)}
                   className={`aspect-square relative flex flex-col items-center justify-center text-sm rounded-2xl transition-all cursor-pointer ${
                     isToday
-                      ? "bg-orange-500 text-white font-bold shadow-lg shadow-orange-200"
+                      ? "bg-orange-500 text-white font-medium"
                       : dayEvents.length > 0
-                      ? "bg-orange-50 text-orange-600 font-semibold"
+                      ? "bg-orange-50 text-orange-600 font-medium"
                       : "text-gray-600 hover:bg-gray-50"
                   }`}
                 >
@@ -397,8 +253,8 @@ const EventCalendar = () => {
 
         <div className="space-y-4">
           <div className="flex items-center justify-between mb-2">
-            <h3 className="text-xl font-bold text-gray-900">Upcoming Events</h3>
-            <span className="text-xs font-bold text-orange-500 bg-orange-50 px-3 py-1 rounded-full uppercase tracking-wider">
+            <h3 className="text-xl font-semibold text-gray-900">Upcoming Events</h3>
+            <span className="text-xs font-medium text-orange-500 bg-orange-50 px-3 py-1 rounded-full uppercase tracking-wider">
               Next {upcomingEvents.length}
             </span>
           </div>
@@ -413,7 +269,7 @@ const EventCalendar = () => {
                   className="group bg-white rounded-[32px] p-4 border border-gray-100 shadow-[0_8px_30px_rgb(0,0,0,0.02)] hover:shadow-[0_15px_40px_rgb(0,0,0,0.05)] transition-all relative flex items-center gap-4 cursor-pointer"
                 >
                   {/* Date Badge */}
-                  <div className={`flex-shrink-0 w-16 h-16 rounded-2xl flex flex-col items-center justify-center transition-transform group-hover:scale-105 duration-300 ${getEventTypeColorLight(event.type)}`}>
+                  <div className={`shrink-0 w-16 h-16 rounded-2xl flex flex-col items-center justify-center transition-transform group-hover:scale-105 duration-300 ${getEventTypeColorLight(event.type)}`}>
                     <span className={`text-[10px] font-bold uppercase tracking-wider mb-0.5 ${getEventTextColor(event.type)}`}>
                       {event.date.toLocaleDateString("en-US", { month: "short" })}
                     </span>

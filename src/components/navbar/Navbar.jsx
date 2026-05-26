@@ -7,7 +7,7 @@ import "../../App.css"
  * Navbar component provides navigation links and handles mobile responsiveness.
  * It dynamically changes its appearance based on the current route and user authentication status.
  */
-const Navbar = ({children}) => {
+const Navbar = ({ children, hasBanner }) => {
     // State to control the visibility of the mobile navigation menu.
     const [isOpen, setIsOpen] = useState(false);
     // State to check if the current page is the home page.
@@ -43,7 +43,10 @@ const Navbar = ({children}) => {
   return (
     <div >
         {/* Main navigation bar. The text color changes based on whether it's the home page. */}
-        <nav className={`${isHome? "text-orange-400": "" } w-full  backdrop-blur-xl z-50 bg-white/10  h-14 md:h-18 lg:h-18 fixed  top-0 left-0`}>
+        <nav 
+          style={{ top: hasBanner ? '40px' : '0px', transition: 'top 0.3s ease-in-out' }}
+          className={`${isHome? "text-orange-400": "" } w-full  backdrop-blur-xl z-50 bg-white/10  h-14 md:h-18 lg:h-18 fixed left-0`}
+        >
            <div className=' mx-auto pr-5  md:w-[90%] lg:w-[95%] p-2 justify-between flex items-center'>
                 <div> {/* Logo Section */}
                     <Link to={"/"}>

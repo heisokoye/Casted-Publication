@@ -346,7 +346,7 @@ const BlogPreview = () => {
                     <DesktopMainCard post={desktopMain} />
                     
                     {/* Wrap sidebar inside a white rounded box to look good against default transparent/image background */}
-                    <div className="w-[35%] flex flex-col bg-white/95 backdrop-blur-lg p-6 rounded-2xl shadow-xl border border-gray-100">
+                    <div className="w-[35%] flex flex-col bg-white/95 backdrop-blur-lg p-6 rounded-2xl shadow-sm">
                         <div className="flex items-center justify-between mb-6">
                             <h3 className="text-xl font-bold text-gray-900">Latest Updates</h3>
                             <Link to="/blog" className="text-sm font-medium text-orange-500 hover:text-orange-600 transition-colors">View all</Link>

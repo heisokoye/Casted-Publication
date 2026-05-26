@@ -6,8 +6,7 @@ import { motion, AnimatePresence } from 'framer-motion'; // For animations
 
 // Hero component definition
 const preview = [
-    { pictures: "Nesa.png", loading: "lazy" },
-    { pictures: "pitch.png", loading: "lazy" },
+    { pictures: "elect.png", loading: "lazy" }
 ];
 
 const Hero = () => {

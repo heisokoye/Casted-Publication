@@ -27,7 +27,7 @@ const Home = () => {
             </Helmet>
         <div className="relative min-h-screen">
             {/* Fixed Background Layer for better performance and scaling */}
-            <div className="fixed inset-0 -z-10 bg-[url('/bg.webp')] lg:bg-[url('/v4.webp')] bg-no-repeat bg-cover bg-center" aria-hidden="true" />
+            <div className="fixed inset-0 -z-10 bg-[url('/bg.webp')] lg:bg-none bg-no-repeat bg-cover bg-center" aria-hidden="true" />
             
             <div className=""> 
                 {/* Hero section - no initial animation to improve FCP */}
