@@ -324,7 +324,7 @@ const EventCalendar = () => {
       {/* Event Detail Modal Overlay */}
       {isModalOpen && selectedDayEvents && (
         <div 
-          className="fixed inset-0 z-[100] flex items-center justify-center p-4 bg-black/60 backdrop-blur-sm"
+          className="fixed inset-0 z-100 flex items-center justify-center p-4 bg-black/60 backdrop-blur-sm"
           onClick={closeModal}
         >
           <div 
@@ -335,7 +335,7 @@ const EventCalendar = () => {
             <div className="p-8 pb-4">
               <div className="flex justify-between items-start mb-6">
                 <div>
-                  <h3 className="text-3xl font-bold text-gray-900">Events</h3>
+                  <h3 className="text-2xl font-semibold text-gray-900">Events</h3>
                   <p className="text-orange-500 font-bold mt-1">
                     {selectedDayEvents.date.toLocaleDateString("en-US", { 
                       weekday: 'long',
