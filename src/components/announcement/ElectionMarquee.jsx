@@ -27,7 +27,7 @@ const ElectionMarquee = () => {
       >
         {/* Pulsing Announcement Badge */}
         <div className="bg-white text-orange-600 text-[10px] md:text-xs font-bold px-3 py-1 ml-4 rounded-full shadow-sm animate-pulse z-10 whitespace-nowrap">
-          ELECTION '26 WINNERS
+          BUSA ELECTION '26 WINNERS
         </div>
 
         {/* Clicking the marquee opens the modal */}

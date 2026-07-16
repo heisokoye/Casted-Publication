@@ -27,8 +27,8 @@ const EventCalendar = () => {
   const [events] = useState([
     {
       id: 1,
-      title: "NESA Annual Conference",
-      date: new Date(2026, 4, 5),
+      title: "Bells 2026/2027 Resumption Date",
+      date: new Date(2026, 9, 20),
       time: "TBD",
       location: "Bells University",
       type: "academic",
