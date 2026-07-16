@@ -28,7 +28,7 @@ const EventCalendar = () => {
     {
       id: 1,
       title: "Bells 2026/2027 Resumption Date",
-      date: new Date(2026, 9, 20),
+      date: new Date(2026, 8, 20),
       time: "TBD",
       location: "Bells University",
       type: "academic",
