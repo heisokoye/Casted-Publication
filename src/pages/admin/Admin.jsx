@@ -54,38 +54,9 @@ const Admin = () => {
   // className="bg-[url('/bg.png')] bg-no-repeat bg-cover bg-fixed
  return (
   <div className="min-h-screen flex">
-    
-    {/* LEFT SIDE (PUBLISHERS / WRITERS VISUAL) */}
-    <div className="hidden lg:flex w-1/2 relative">
-      <img
-        src="https://images.unsplash.com/photo-1455390582262-044cdead277a?q=80&w=2070&auto=format&fit=crop"
-        alt="writers workspace"
-        className="absolute inset-0 w-full h-full object-cover"
-      />
-
-      {/* Overlay */}
-      <div className="absolute inset-0 bg-black/70" />
-
-      {/* Content */}
-      <div className="relative z-10 flex flex-col justify-center px-16 text-white">
-        <h1 className="text-4xl font-bold leading-tight">
-          Log into your account Admin
-        </h1>
-
-        <p className="mt-4 text-lg text-gray-300 max-w-md">
-          Manage content, publish stories, and control your editorial workflow — all in one place.
-        </p>
-
-        <div className="mt-10 space-y-3 text-gray-300 text-sm">
-          <p>• Secure admin access</p>
-          <p>• Content management tools</p>
-          <p>• Publishing control dashboard</p>
-        </div>
-      </div>
-    </div>
 
     {/* RIGHT SIDE (AUTH FORM) */}
-    <div className="w-full lg:w-1/2 flex items-center justify-center bg-white px-6">
+    <div className="w-full flex items-center justify-center bg-white px-6">
       <div
         className="w-full max-w-md"
       >
