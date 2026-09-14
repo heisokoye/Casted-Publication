@@ -72,7 +72,7 @@ const Hero = () => {
 
     return (
         // Main container for the hero section
-        <div className="w-full border-b  border-gray-300">
+        <div className="w-full border-b  border-gray-200">
             {/* Mobile Ad Modal */}
             <AnimatePresence>
                 {showAd && (

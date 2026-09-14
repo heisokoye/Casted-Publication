@@ -158,99 +158,8 @@ const EventCalendar = () => {
   }, [events]);
 
   return (
-    <section className="py-16 border-b border-gray-100 md:hidden lg:hidden bg-gray-50/50">
+    <section className="py-16 border-b border-gray-200 md:hidden lg:hidden ">
       <div className="mx-auto w-[92%]">
-        <div 
-          className="text-center mb-10"
-        >
-          <div className="flex items-center justify-center gap-3 mb-3">
-            <div className="p-2.5 bg-orange-50 rounded-xl">
-              <FaCalendarAlt className="text-orange-500 text-2xl" />
-            </div>
-            <h2 className="text-gray-900 text-3xl font-medium tracking-tight">
-              Event <span className="bg-clip-text text-transparent bg-linear-to-r from-orange-500 to-orange-600">Calendar</span>
-            </h2>
-          </div>
-          <p className="text-gray-500 font-medium">Stay updated with campus events</p>
-        </div>
-
-        <div 
-          className="bg-white rounded-3xl border border-gray-100 p-6 mb-8 overflow-hidden"
-        >
-          <div className="flex items-center justify-between mb-8">
-            <button
-              onClick={goToPreviousMonth}
-              className="p-3 rounded-2xl bg-gray-50 text-gray-600 hover:bg-gray-100 transition-all"
-            >
-              <FaChevronLeft className="text-sm" />
-            </button>
-            
-              <h4 
-                key={currentMonth.getTime()}
-                className="text-xl font-medium text-gray-900"
-              >
-                {monthNames[currentMonth.getMonth()]} {currentMonth.getFullYear()}
-              </h4>
-
-            <button
-              onClick={goToNextMonth}
-              className="p-3 rounded-2xl bg-gray-50 text-gray-600 hover:bg-gray-100 transition-all"
-            >
-              <FaChevronRight className="text-sm" />
-            </button>
-          </div>
-
-          <div className="grid grid-cols-7 gap-1 mb-4">
-            {dayNames.map((day) => (
-              <div key={day} className="text-center text-[10px] font-bold uppercase tracking-wider text-gray-400 py-2">
-                {day}
-              </div>
-            ))}
-          </div>
-
-          <div className="grid grid-cols-7 gap-2">
-            {Array.from({ length: startingDayOfWeek }).map((_, index) => (
-              <div key={`empty-${index}`} className="aspect-square" />
-            ))}
-
-            {Array.from({ length: daysInMonth }).map((_, index) => {
-              const day = index + 1;
-              const dayEvents = getEventsForDate(day);
-              const isToday = day === today.getDate() && currentMonth.getMonth() === today.getMonth() && currentMonth.getFullYear() === today.getFullYear();
-
-              return (
-                <div
-                  key={day}
-                  onClick={() => handleDayClick(day)}
-                  className={`aspect-square relative flex flex-col items-center justify-center text-sm rounded-2xl transition-all cursor-pointer ${
-                    isToday
-                      ? "bg-orange-500 text-white font-medium"
-                      : dayEvents.length > 0
-                      ? "bg-orange-50 text-orange-600 font-medium"
-                      : "text-gray-600 hover:bg-gray-50"
-                  }`}
-                >
-                  <span>{day}</span>
-                  {dayEvents.length > 0 && !isToday && (
-                    <div className="absolute bottom-2 flex gap-0.5">
-                      {dayEvents.slice(0, 3).map((event) => (
-                        <div key={event.id} className={`w-1 h-1 rounded-full ${getEventTypeColor(event.type)}`} />
-                      ))}
-                    </div>
-                  )}
-                  {isToday && dayEvents.length > 0 && (
-                    <div className="absolute bottom-2 flex gap-0.5">
-                      {dayEvents.slice(0, 3).map((event) => (
-                        <div key={event.id} className="w-1 h-1 rounded-full bg-white/60" />
-                      ))}
-                    </div>
-                  )}
-                </div>
-              );
-            })}
-          </div>
-        </div>
-
         <div className="space-y-4">
           <div className="flex items-center justify-between mb-2">
             <h3 className="text-xl font-medium text-gray-900">Upcoming Events</h3>
@@ -328,15 +237,15 @@ const EventCalendar = () => {
           onClick={closeModal}
         >
           <div 
-            className="bg-white rounded-[40px] w-full max-w-sm overflow-hidden shadow-2xl relative"
+            className="bg-white rounded-[30px] w-full max-w-sm overflow-hidden shadow-2xl relative"
             onClick={(e) => e.stopPropagation()}
           >
             {/* Modal Header */}
             <div className="p-8 pb-4">
               <div className="flex justify-between items-start mb-6">
                 <div>
-                  <h3 className="text-2xl font-semibold text-gray-900">Events</h3>
-                  <p className="text-orange-500 font-bold mt-1">
+                  <h3 className="text-2xl font-medium text-gray-900">Events</h3>
+                  <p className="text-orange-500 font-medium mt-1">
                     {selectedDayEvents.date.toLocaleDateString("en-US", { 
                       weekday: 'long',
                       month: 'long', 
@@ -365,10 +274,10 @@ const EventCalendar = () => {
                       <span className={`text-[10px] font-black px-2 py-0.5 rounded-full uppercase tracking-wider ${getEventTypeColorLight(event.type)} ${getEventTextColor(event.type)}`}>
                         {event.type}
                       </span>
-                      <span className="text-xs text-gray-400 font-bold">{event.time}</span>
+                      
                     </div>
 
-                    <h4 className="text-xl font-bold text-gray-900 mb-2 leading-tight">
+                    <h4 className="text-xl font-medium text-gray-900 mb-2 leading-tight">
                       {event.title}
                     </h4>
 
@@ -380,14 +289,14 @@ const EventCalendar = () => {
                     <div className="flex gap-3">
                       <button
                         onClick={() => handleShare(event)}
-                        className="flex-1 flex items-center justify-center gap-2 py-3 px-4 bg-gray-50 rounded-2xl text-gray-700 font-bold text-sm hover:bg-orange-50 hover:text-orange-600 transition-all border border-transparent hover:border-orange-100"
+                        className="flex-1 flex items-center justify-center gap-2 py-3 px-4 bg-gray-50 rounded-2xl text-gray-700 font-medium text-sm hover:bg-orange-50 hover:text-orange-600 transition-all border border-transparent hover:border-orange-100"
                       >
                         <ShareIcon className="w-4 h-4" />
                         Share
                       </button>
                       <button
                         onClick={() => handleAddToCalendar(event)}
-                        className="flex-1 flex items-center justify-center gap-2 py-3 px-4 bg-orange-500 rounded-2xl text-white font-bold text-sm hover:bg-orange-600 transition-all shadow-lg shadow-orange-200"
+                        className="flex-1 flex items-center justify-center gap-2 py-3 px-4 bg-orange-500 rounded-2xl text-white font-medium text-sm hover:bg-orange-600 transition-all shadow-lg shadow-orange-200"
                       >
                         <FaCalendarPlus size={14} />
                         Add
@@ -400,7 +309,7 @@ const EventCalendar = () => {
             
             {/* Modal Footer */}
             <div className="p-6 bg-gray-50 flex justify-center">
-              <p className="text-[10px] text-gray-400 font-bold uppercase tracking-[2px]">Casted Publications • 2026</p>
+              <p className="text-[10px] text-gray-400 font-normal uppercase tracking-[2px]">Casted Publications • 2026</p>
             </div>
           </div>
         </div>

@@ -89,7 +89,7 @@ const PostCard = ({ post, index }) => {
   return (
     <Link to={`/post/${post.id}`} key={post.id} className="block group">
       <div
-        className="flex mb-12 rounded-2xl border border-gray-200 flex-col h-[23.75rem] cursor-pointer bg-white overflow-hidden shadow-sm hover:shadow-md transition-shadow"
+        className="flex mb-12 rounded-2xl border border-gray-200 flex-col h-95 cursor-pointer bg-white overflow-hidden shadow-sm hover:shadow-md transition-shadow"
       >
         <div className="relative w-full h-48 shrink-0">
           <img
@@ -151,7 +151,7 @@ const DesktopMainCard = ({ post }) => {
 
   return (
     <div className="w-full lg:w-[65%]">
-        <Link to={`/post/${post.id}`} className="block relative h-[450px] w-full rounded-2xl overflow-hidden group shadow-md hover:shadow-xl transition-shadow">
+        <Link to={`/post/${post.id}`} className="block relative h-112.5 w-full rounded-2xl overflow-hidden group shadow-md hover:shadow-xl transition-shadow">
         <img src={post.fileUrl} className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105" alt={post.title} />
         <div className="absolute inset-0 bg-linear-to-t from-black/90 via-black/30 to-transparent"></div>
         
@@ -191,7 +191,7 @@ const DesktopSideCard = ({ post }) => {
 
   return (
     <Link to={`/post/${post.id}`} className="flex gap-4 items-center group border-b border-gray-200 pb-5 last:border-0 last:pb-0 relative bg-transparent hover:bg-gray-50/50 p-2 rounded-xl transition-colors">
-      <div className="w-[100px] h-[72px] shrink-0 rounded-lg overflow-hidden bg-gray-100 shadow-sm">
+      <div className="w-25 h-18 shrink-0 rounded-lg overflow-hidden bg-gray-100 shadow-sm">
         <img src={post.fileUrl} className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110" alt={post.title} />
       </div>
       <div className="flex flex-col justify-center h-full pr-14 w-full">
@@ -240,7 +240,7 @@ const BlogPreview = () => {
   const desktopSide = posts.slice(1, 5); // Take next 4 for sidebar to make 5 total
 
   return (
-    <div className="py-20 border-b border-gray-300 w-full relative z-10">
+    <div className="py-20 border-b border-gray-200 w-full relative z-10">
       {/* 80% width and centered margin for desktop explicitly as requested */}
       <div className="mx-auto w-[90%] lg:w-[80%] ">
         <h2 className="justify-center lg:justify-start flex gap-2 text-3xl font-medium py-8 mb-4">
