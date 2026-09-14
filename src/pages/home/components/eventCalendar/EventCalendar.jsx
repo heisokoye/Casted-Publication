@@ -27,7 +27,7 @@ const EventCalendar = () => {
   const [events] = useState([
     {
       id: 1,
-      title: "Bells 2026/2027 Resumption Date",
+      title: "Resumption Date",
       date: new Date(2026, 8, 20),
       time: "TBD",
       location: "Bells University",
@@ -253,7 +253,7 @@ const EventCalendar = () => {
 
         <div className="space-y-4">
           <div className="flex items-center justify-between mb-2">
-            <h3 className="text-xl font-semibold text-gray-900">Upcoming Events</h3>
+            <h3 className="text-xl font-medium text-gray-900">Upcoming Events</h3>
             <span className="text-xs font-medium text-orange-500 bg-orange-50 px-3 py-1 rounded-full uppercase tracking-wider">
               Next {upcomingEvents.length}
             </span>
@@ -266,7 +266,7 @@ const EventCalendar = () => {
                 <div
                   key={event.id}
                   onClick={() => handleEventClick(event)}
-                  className="group bg-white rounded-[32px] p-4 border border-gray-100 shadow-[0_8px_30px_rgb(0,0,0,0.02)] hover:shadow-[0_15px_40px_rgb(0,0,0,0.05)] transition-all relative flex items-center gap-4 cursor-pointer"
+                  className="group bg-white rounded-4xl p-4 border border-gray-100 shadow-[0_8px_30px_rgb(0,0,0,0.02)] hover:shadow-[0_15px_40px_rgb(0,0,0,0.05)] transition-all relative flex items-center gap-4 cursor-pointer"
                 >
                   {/* Date Badge */}
                   <div className={`shrink-0 w-16 h-16 rounded-2xl flex flex-col items-center justify-center transition-transform group-hover:scale-105 duration-300 ${getEventTypeColorLight(event.type)}`}>
@@ -280,13 +280,13 @@ const EventCalendar = () => {
 
                   <div className="flex-1 min-w-0">
                     <div className="flex items-center gap-2 mb-1.5">
-                      <span className={`text-[9px] font-extrabold px-2 py-0.5 rounded-full uppercase tracking-wider ${getEventTypeColorLight(event.type)} ${getEventTextColor(event.type)}`}>
+                      <span className={`text-[9px] font-medium px-2 py-0.5 rounded-full uppercase tracking-wider ${getEventTypeColorLight(event.type)} ${getEventTextColor(event.type)}`}>
                         {event.type}
                       </span>
-                      <span className="text-[11px] text-gray-400 font-bold tracking-tight">{event.time}</span>
+                     
                     </div>
                     
-                    <h4 className="font-bold text-gray-900 text-base leading-tight mb-1 truncate group-hover:text-orange-500 transition-colors">
+                    <h4 className="font-medium text-gray-900 text-base leading-tight mb-1 truncate group-hover:text-orange-500 transition-colors">
                       {event.title}
                     </h4>
                     

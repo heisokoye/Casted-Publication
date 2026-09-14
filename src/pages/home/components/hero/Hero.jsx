@@ -1,12 +1,12 @@
 // Import necessary libraries and components
 import React, { useState, useEffect, useRef, useCallback } from 'react';
 import { Helmet } from 'react-helmet-async'; // Import Helmet for managing the document head
-import { BsArrowRight, BsArrowLeft } from 'react-icons/bs'; // Icons for slider navigation
+import { BsArrowRight, BsArrowLeft, BsX } from 'react-icons/bs'; // Icons for slider navigation and close button
 import { motion, AnimatePresence } from 'framer-motion'; // For animations
 
 // Hero component definition
 const preview = [
-    { pictures: "elect.png", loading: "lazy" }
+    { pictures: "essentials.webp", loading: "lazy" }
 ];
 
 const Hero = () => {
@@ -14,6 +14,8 @@ const Hero = () => {
     const [currentSlide, setCurrentSlide] = useState(0);
     // State to track the direction of the slide transition (for animation)
     const [direction, setDirection] = useState(0);
+    // State to control mobile ad visibility
+    const [showAd, setShowAd] = useState(true);
     // Refs for DOM elements
     const heroRef = useRef(null);
     const sliderRef = useRef(null);
@@ -71,6 +73,33 @@ const Hero = () => {
     return (
         // Main container for the hero section
         <div className="w-full border-b  border-gray-300">
+            {/* Mobile Ad Modal */}
+            <AnimatePresence>
+                {showAd && (
+                    <motion.div 
+                        initial={{ opacity: 0 }}
+                        animate={{ opacity: 1 }}
+                        exit={{ opacity: 0 }}
+                        className="fixed inset-0 z-100 flex items-center justify-center bg-black/80 md:hidden p-4"
+                    >
+                        <div className="relative w-full max-w-sm">
+                            <button 
+                                onClick={() => setShowAd(false)}
+                                className="absolute -top-12 right-0 text-white text-3xl z-110 cursor-pointer bg-black/50 rounded-full p-1"
+                                aria-label="Close Ad"
+                            >
+                                <BsX />
+                            </button>
+                            <img 
+                                src="essentials.webp" 
+                                alt="Essentials Ad" 
+                                className="w-full h-auto rounded-lg shadow-2xl"
+                            />
+                        </div>
+                    </motion.div>
+                )}
+            </AnimatePresence>
+
             {/* Preload the LCP image for faster loading on large screens */}
             <Helmet>
                 <link rel="preload" decoding="async" as="image" href={preview[0].pictures} />
@@ -116,7 +145,7 @@ const Hero = () => {
                                     <img
                                         src={preview[currentSlide].pictures}
                                         alt={preview[currentSlide].titles}
-                                        className="w-full object-cover"
+                                        className="w-full h-full object-center"
                                         loading={currentSlide === 0 ? 'eager' : 'lazy'}
                                         fetchpriority={currentSlide === 0 ? 'high' : 'low'}
                                         decoding="async"
