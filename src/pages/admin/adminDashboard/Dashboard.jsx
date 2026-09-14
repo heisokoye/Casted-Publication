@@ -45,6 +45,10 @@ const Dashboard = () => {
   // null => adding a new post
   const [editingPost, setEditingPost] = useState(null);
 
+  // Delete confirmation modal state: holds the post object to delete or null
+  const [deleteTarget, setDeleteTarget] = useState(null);
+  const [isDeleting, setIsDeleting] = useState(false);
+
   // Title / content of the post form
   const [title, setTitle] = useState('');
   const [content, setContent] = useState(''); 
@@ -190,19 +194,24 @@ const Dashboard = () => {
     setIsOpen(false);
   };
 
-  // Delete a post by ID with confirmation prompt
-  const handleDelete = async (post) => {
-    const postTitle = post.title ? `"${post.title}"` : 'this post';
-    if (!window.confirm(`Are you sure you want to delete ${postTitle}? This action cannot be undone.`)) {
-      return;
-    }
+  // Open custom UI delete confirmation modal
+  const promptDelete = (post) => {
+    setDeleteTarget(post);
+  };
 
+  // Perform actual document deletion from Firestore after UI confirmation
+  const confirmDelete = async () => {
+    if (!deleteTarget) return;
+    setIsDeleting(true);
     try {
-      await deleteDoc(doc(db, "posts", post.id));
+      await deleteDoc(doc(db, "posts", deleteTarget.id));
       console.log("Document successfully deleted!");
+      setDeleteTarget(null);
     } catch (error) {
       console.error("Error removing document: ", error);
-      alert("Failed to delete post. Please try again.");
+      alert("Failed to delete post. Check console for details.");
+    } finally {
+      setIsDeleting(false);
     }
   };
 
@@ -275,7 +284,7 @@ const Dashboard = () => {
                       <BsPencil size={13} />
                     </button>
                     <button
-                      onClick={() => handleDelete(post)}
+                      onClick={() => promptDelete(post)}
                       className="p-2 text-red-500 bg-red-50 hover:text-red-700 hover:bg-red-100 rounded-md transition-colors"
                       title="Delete post"
                     >
@@ -398,6 +407,43 @@ const Dashboard = () => {
               </button>
             </div>
           </form>
+        </div>
+      </div>
+    )}
+
+    {/* DELETE CONFIRMATION UI MODAL */}
+    {deleteTarget && (
+      <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/40 backdrop-blur-sm p-4">
+        <div className="w-full max-w-md bg-white rounded-2xl shadow-xl overflow-hidden p-6 animate-in fade-in zoom-in-95 duration-200">
+          <div className="flex items-center gap-3 text-red-600 mb-3">
+            <div className="p-2.5 bg-red-50 text-red-600 rounded-full shrink-0">
+              <BsTrash size={20} />
+            </div>
+            <h3 className="text-lg font-semibold text-gray-900">Delete Post</h3>
+          </div>
+
+          <p className="text-gray-600 text-sm mb-6 leading-relaxed">
+            Are you sure you want to delete <span className="font-semibold text-gray-900">"{deleteTarget.title || 'this post'}"</span>? This action is permanent and cannot be undone.
+          </p>
+
+          <div className="flex justify-end gap-3">
+            <button
+              type="button"
+              onClick={() => setDeleteTarget(null)}
+              disabled={isDeleting}
+              className="px-4 py-2 rounded-lg bg-gray-100 text-gray-700 text-sm hover:bg-gray-200 transition font-medium disabled:opacity-50"
+            >
+              Cancel
+            </button>
+            <button
+              type="button"
+              onClick={confirmDelete}
+              disabled={isDeleting}
+              className="px-5 py-2 rounded-lg bg-red-600 text-white text-sm hover:bg-red-700 transition font-medium disabled:opacity-50 flex items-center gap-2"
+            >
+              {isDeleting ? 'Deleting...' : 'Delete Post'}
+            </button>
+          </div>
         </div>
       </div>
     )}
