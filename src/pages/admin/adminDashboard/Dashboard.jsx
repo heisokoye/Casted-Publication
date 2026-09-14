@@ -216,7 +216,7 @@ const Dashboard = () => {
 
         <button
           onClick={() => openModal()}
-          className="mt-4 md:mt-0 px-5 py-2.5 bg-gradient-to-r from-amber-500 to-amber-600 text-white rounded-lg shadow hover:from-amber-600 hover:to-amber-700 transition"
+          className="mt-4 md:mt-0 px-5 py-2.5 bg-linear-to-r from-amber-500 to-amber-600 text-white rounded-lg shadow hover:from-amber-600 hover:to-amber-700 transition"
         >
           + New Post
         </button>
@@ -285,7 +285,7 @@ const Dashboard = () => {
         <div className="w-full max-w-2xl bg-white rounded-2xl shadow-xl overflow-hidden">
 
           {/* MODAL HEADER */}
-          <div className="flex justify-between items-center px-6 py-4 border-b">
+          <div className="flex justify-between items-center px-6 py-4 ">
             <h2 className="text-lg font-semibold text-gray-800">
               {editingPost ? 'Edit Post' : 'Create New Post'}
             </h2>
@@ -364,7 +364,7 @@ const Dashboard = () => {
               <button
                 type="submit"
                 disabled={isUploading}
-                className="px-5 py-2 rounded-lg bg-gradient-to-r from-amber-500 to-amber-600 text-white hover:from-amber-600 hover:to-amber-700 transition disabled:opacity-50"
+                className="px-5 py-2 rounded-lg bg-linear-to-r from-amber-500 to-amber-600 text-white hover:from-amber-600 hover:to-amber-700 transition disabled:opacity-50"
               >
                 {isUploading
                   ? 'Uploading...'

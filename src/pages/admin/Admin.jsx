@@ -135,7 +135,7 @@ const Admin = () => {
               whileTap={{ scale: 0.98 }}
               type="submit"
               disabled={loading}
-              className="w-full py-3 rounded-lg bg-gradient-to-r from-amber-500 to-amber-600 text-white font-medium flex justify-center items-center gap-2 disabled:opacity-50"
+              className="w-full py-3 rounded-lg bg-linear-to-r from-amber-500 to-amber-600 text-white font-medium flex justify-center items-center gap-2 disabled:opacity-50"
             >
               {loading ? (
                 <Loader />
