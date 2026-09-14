@@ -1,4 +1,5 @@
 import React, {useState, useEffect} from "react"
+import { BsPencil, BsTrash, BsImage, BsCameraVideo } from 'react-icons/bs';
 import ReactQuill from 'react-quill-new'; // rich text editor used for post content
 import 'react-quill-new/dist/quill.snow.css';
 import {addDoc, collection, serverTimestamp} from "firebase/firestore"; // used to add new documents
@@ -203,20 +204,20 @@ const Dashboard = () => {
 
   // Render the dashboard UI
   return (
-  <div className="min-h-screen bg-gray-50 pt-20">
+  <div className="min-h-screen bg-gray-50 pt-20 pb-12">
     
-    <div className="max-w-7xl mx-auto px-6">
+    <div className="max-w-7xl mx-auto px-4 sm:px-6">
       
       {/* HEADER */}
-      <div className="flex flex-col md:flex-row md:items-center md:justify-between mb-8">
+      <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between mb-6 sm:mb-8">
         <div>
-          <h1 className="text-3xl font-semibold text-gray-800">Dashboard</h1>
-          <p className="text-gray-500 mt-1">Manage your posts and content</p>
+          <h1 className="text-2xl sm:text-3xl font-semibold text-gray-800">Dashboard</h1>
+          <p className="text-gray-500 text-sm mt-1">Manage your posts and content</p>
         </div>
 
         <button
           onClick={() => openModal()}
-          className="mt-4 md:mt-0 px-5 py-2.5 bg-linear-to-r from-amber-500 to-amber-600 text-white rounded-lg shadow hover:from-amber-600 hover:to-amber-700 transition"
+          className="mt-4 sm:mt-0 px-5 py-2.5 bg-linear-to-r from-amber-500 to-amber-600 text-white font-medium text-sm rounded-lg shadow hover:from-amber-600 hover:to-amber-700 transition self-start sm:self-auto"
         >
           + New Post
         </button>
@@ -228,49 +229,66 @@ const Dashboard = () => {
           <Loader />
         </div>
       ) : (
-        <div className="grid sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+        <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-4">
           {posts.map((post) => (
             <div
               key={post.id}
-              className="bg-white rounded-2xl shadow-sm border border-gray-200 overflow-hidden hover:shadow-md transition"
+              className="flex items-center gap-3 sm:gap-4 bg-white rounded-xl p-3 border border-gray-200 shadow-sm hover:shadow-md hover:border-gray-300 transition-all group overflow-hidden"
             >
               {/* MEDIA */}
-              {post.fileUrl && post.fileType === 'image' && (
-                <img
-                  src={post.fileUrl}
-                  alt={post.title}
-                  className="w-full h-48 object-cover"
-                />
-              )}
-
-              {post.fileUrl && post.fileType === 'video' && (
-                <video
-                  src={post.fileUrl}
-                  controls
-                  className="w-full h-48 object-cover"
-                />
-              )}
+              <div className="shrink-0 w-24 sm:w-28 h-20 rounded-lg overflow-hidden bg-gray-100 flex items-center justify-center border border-gray-100">
+                {post.fileUrl && post.fileType === 'image' && (
+                  <img
+                    src={post.fileUrl}
+                    alt={post.title}
+                    className="w-full h-full object-cover"
+                  />
+                )}
+                {post.fileUrl && post.fileType === 'video' && (
+                  <video
+                    src={post.fileUrl}
+                    className="w-full h-full object-cover"
+                  />
+                )}
+                {!post.fileUrl && (
+                  <BsImage className="text-gray-400 text-xl" />
+                )}
+              </div>
 
               {/* BODY */}
-              <div className="p-4">
-                <h2 className="text-gray-800 font-medium line-clamp-2">
-                  {post.title}
+              <div className="flex-1 min-w-0 flex flex-col justify-center py-0.5">
+                <div className="flex justify-between items-center mb-1 gap-2">
+                  <span className="text-gray-500 text-xs font-medium truncate shrink">
+                    {post.createdAt?.toDate ? new Date(post.createdAt.toDate()).toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' }) : 'Just now'}
+                  </span>
+                  <div className="flex gap-1 shrink-0 lg:opacity-0 lg:group-hover:opacity-100 transition-opacity">
+                    <button
+                      onClick={() => openModal(post)}
+                      className="p-1.5 text-gray-500 hover:text-gray-900 hover:bg-gray-100 rounded-md transition-colors"
+                      title="Edit post"
+                    >
+                      <BsPencil size={14} />
+                    </button>
+                    <button
+                      onClick={() => handleDelete(post.id)}
+                      className="p-1.5 text-gray-500 hover:text-red-600 hover:bg-red-50 rounded-md transition-colors"
+                      title="Delete post"
+                    >
+                      <BsTrash size={14} />
+                    </button>
+                  </div>
+                </div>
+
+                <h2 className="text-gray-900 font-semibold text-sm truncate">
+                  {post.title || "Untitled Post"}
                 </h2>
 
-                <div className="flex gap-2 mt-4">
-                  <button
-                    onClick={() => openModal(post)}
-                    className="flex-1 py-2 text-sm rounded-lg bg-amber-100 text-amber-700 hover:bg-amber-200 transition"
-                  >
-                    Edit
-                  </button>
-
-                  <button
-                    onClick={() => handleDelete(post.id)}
-                    className="flex-1 py-2 text-sm rounded-lg bg-red-500 text-white hover:bg-red-600 transition"
-                  >
-                    Delete
-                  </button>
+                <div className="flex justify-between items-center mt-2 text-gray-500 text-xs font-medium">
+                  <span className="flex items-center gap-1.5">
+                    {post.fileType === 'video' ? <BsCameraVideo size={12} /> : <BsImage size={12} />}
+                    {post.fileType === 'video' ? 'Video' : 'Article'}
+                  </span>
+                  <span className="text-amber-600 font-medium">Published</span>
                 </div>
               </div>
             </div>
@@ -281,49 +299,50 @@ const Dashboard = () => {
 
     {/* MODAL */}
     {isOpen && (
-      <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/40 backdrop-blur-sm px-4">
-        <div className="w-full max-w-2xl bg-white rounded-2xl shadow-xl overflow-hidden">
+      <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/40 backdrop-blur-sm p-3 sm:p-4 overflow-y-auto">
+        <div className="w-full max-w-2xl bg-white rounded-2xl shadow-xl overflow-hidden my-auto max-h-[90vh] flex flex-col">
 
           {/* MODAL HEADER */}
-          <div className="flex justify-between items-center px-6 py-4 ">
-            <h2 className="text-lg font-semibold text-gray-800">
+          <div className="flex justify-between items-center px-4 sm:px-6 py-3.5 border-b border-gray-100 shrink-0">
+            <h2 className="text-base sm:text-lg font-semibold text-gray-800">
               {editingPost ? 'Edit Post' : 'Create New Post'}
             </h2>
             <button
               onClick={resetAndCloseModal}
-              className="text-gray-400 hover:text-gray-600 text-xl"
+              className="text-gray-400 hover:text-gray-600 text-2xl leading-none p-1"
             >
               ×
             </button>
           </div>
 
           {/* FORM */}
-          <form onSubmit={handleFormSubmit} className="flex flex-col max-h-[85vh]">
+          <form onSubmit={handleFormSubmit} className="flex flex-col flex-1 min-h-0">
             
             {/* SCROLLABLE CONTENT AREA */}
-            <div className="p-6 space-y-5 overflow-y-auto">
+            <div className="p-4 sm:p-6 space-y-4 sm:space-y-5 overflow-y-auto flex-1">
               {/* TITLE */}
               <div>
-                <label className="text-sm text-gray-600 mb-2 block">Title</label>
+                <label className="text-xs sm:text-sm font-medium text-gray-700 mb-1.5 block">Title</label>
                 <input
                   type="text"
                   value={title}
                   onChange={(e) => setTitle(e.target.value)}
-                  className="w-full border rounded-lg px-4 py-2.5 focus:ring-2 focus:ring-amber-500 outline-none"
+                  className="w-full border border-gray-300 rounded-lg px-3.5 py-2 text-sm focus:ring-2 focus:ring-amber-500 outline-none transition"
+                  placeholder="Enter post title..."
                   required
                 />
               </div>
 
               {/* FILE */}
               <div>
-                <label className="text-sm text-gray-600 mb-2 block">
+                <label className="text-xs sm:text-sm font-medium text-gray-700 mb-1.5 block">
                   Image / Video
                 </label>
                 <input
                   type="file"
                   onChange={handleFileChange}
                   accept="image/*,video/*"
-                  className="w-full text-sm"
+                  className="w-full text-xs sm:text-sm text-gray-500 file:mr-3 file:py-1.5 file:px-3 file:rounded-md file:border-0 file:text-xs file:font-semibold file:bg-amber-50 file:text-amber-700 hover:file:bg-amber-100"
                 />
               </div>
 
@@ -335,7 +354,7 @@ const Dashboard = () => {
                   onChange={handleChange}
                   modules={modules}
                   formats={formats}
-                  className="h-64 mb-12"
+                  className="h-44 sm:h-64 mb-14 sm:mb-12"
                 />
               </div>
 
@@ -351,12 +370,12 @@ const Dashboard = () => {
             </div>
 
             {/* FIXED FOOTER ACTIONS */}
-            <div className="flex justify-end gap-3 p-4 bg-gray-50">
+            <div className="flex justify-end gap-3 p-3.5 sm:p-4 bg-gray-50 border-t border-gray-100 shrink-0">
               <button
                 type="button"
                 onClick={resetAndCloseModal}
                 disabled={isUploading}
-                className="px-4 py-2 rounded-lg bg-gray-200 hover:bg-gray-300 transition disabled:opacity-50"
+                className="px-4 py-2 rounded-lg bg-gray-200 text-gray-700 text-sm hover:bg-gray-300 transition disabled:opacity-50 font-medium"
               >
                 Cancel
               </button>
@@ -364,7 +383,7 @@ const Dashboard = () => {
               <button
                 type="submit"
                 disabled={isUploading}
-                className="px-5 py-2 rounded-lg bg-linear-to-r from-amber-500 to-amber-600 text-white hover:from-amber-600 hover:to-amber-700 transition disabled:opacity-50"
+                className="px-5 py-2 rounded-lg bg-linear-to-r from-amber-500 to-amber-600 text-white text-sm hover:from-amber-600 hover:to-amber-700 transition disabled:opacity-50 font-medium"
               >
                 {isUploading
                   ? 'Uploading...'
