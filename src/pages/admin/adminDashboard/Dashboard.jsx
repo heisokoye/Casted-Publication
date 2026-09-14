@@ -190,16 +190,21 @@ const Dashboard = () => {
     setIsOpen(false);
   };
 
-  // Delete a post by ID
-  const handleDelete = async(id)=>{
-    try{
-      await deleteDoc(doc(db, "posts", id));
+  // Delete a post by ID with confirmation prompt
+  const handleDelete = async (post) => {
+    const postTitle = post.title ? `"${post.title}"` : 'this post';
+    if (!window.confirm(`Are you sure you want to delete ${postTitle}? This action cannot be undone.`)) {
+      return;
+    }
+
+    try {
+      await deleteDoc(doc(db, "posts", post.id));
       console.log("Document successfully deleted!");
-    }
-    catch(error){
+    } catch (error) {
       console.error("Error removing document: ", error);
+      alert("Failed to delete post. Please try again.");
     }
-  }
+  };
 
 
   // Render the dashboard UI
@@ -261,20 +266,20 @@ const Dashboard = () => {
                   <span className="text-gray-500 text-xs font-medium truncate shrink">
                     {post.createdAt?.toDate ? new Date(post.createdAt.toDate()).toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' }) : 'Just now'}
                   </span>
-                  <div className="flex gap-1 shrink-0 lg:opacity-0 lg:group-hover:opacity-100 transition-opacity">
+                  <div className="flex gap-2.5 shrink-0 lg:opacity-0 lg:group-hover:opacity-100 transition-opacity">
                     <button
                       onClick={() => openModal(post)}
-                      className="p-1.5 text-gray-500 hover:text-gray-900 hover:bg-gray-100 rounded-md transition-colors"
+                      className="p-2 text-gray-600 bg-gray-100/70 hover:text-gray-900 hover:bg-gray-200 rounded-md transition-colors"
                       title="Edit post"
                     >
-                      <BsPencil size={14} />
+                      <BsPencil size={13} />
                     </button>
                     <button
-                      onClick={() => handleDelete(post.id)}
-                      className="p-1.5 text-gray-500 hover:text-red-600 hover:bg-red-50 rounded-md transition-colors"
+                      onClick={() => handleDelete(post)}
+                      className="p-2 text-red-500 bg-red-50 hover:text-red-700 hover:bg-red-100 rounded-md transition-colors"
                       title="Delete post"
                     >
-                      <BsTrash size={14} />
+                      <BsTrash size={13} />
                     </button>
                   </div>
                 </div>
