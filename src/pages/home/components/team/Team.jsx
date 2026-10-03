@@ -24,7 +24,6 @@ const team = [
   { id: 8, avatar: "/Divine.webp", name: "Chigozie-Akano Divine", title: "Lead Interviewer" },
   { id: 4, avatar: "/nifemi.webp", name: "Adesanya Olorunnifemi", title: "Lead Designer" },
   { id: 5, avatar: "/Adex.webp", name: "Adeniyi Ademide", title: "Social Media Director" },
-  { id: 6, avatar: "/daniel.webp", name: "Adekoya Daniel", title: "Lead Videographer" },
   { id: 7, avatar: "/Tolu.webp", name: "Tolulope Ogunbiyi", title: "Lead Photographer" },
   { id: 9, avatar: "/Okoye.webp", name: "Okoye Emeka", title: "Developer" },
 ];
