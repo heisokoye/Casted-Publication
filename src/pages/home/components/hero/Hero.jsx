@@ -6,7 +6,7 @@ import { motion, AnimatePresence } from 'framer-motion'; // For animations
 
 // Hero component definition
 const preview = [
-    { pictures: "essentials.webp", loading: "lazy" }
+    { pictures: "casted.webp", loading: "lazy" }
 ];
 
 const Hero = () => {

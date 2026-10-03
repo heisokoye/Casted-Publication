@@ -2,7 +2,7 @@ import React from 'react';
 import './Partners.css';
 
 const Partners = () => {
-  const partners = ["natada.png", "brix.png", "deggia.png"];
+  const partners = [ "brix.png", ];
   
   // Duplicate logos dynamically for infinite effect
   const logos = [...partners, ...partners, ...partners];
