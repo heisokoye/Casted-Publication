@@ -130,14 +130,32 @@ app.post('/send-to-all', async (req, res) => {
 
   if (!tokens.length) return res.status(400).send({ error: 'No registered tokens.' });
 
-  const message = { data: {}, tokens };
+  const targetUrl = url || "/";
 
-  if (title) message.data.title = title;
-  if (body) message.data.body = body;
-  if (image) message.data.image = image;
+  const message = {
+    notification: {
+      title: title || "Casted Update",
+      body: body || "Open the app to learn more.",
+    },
+    data: {
+      title: title || "Casted Update",
+      body: body || "Open the app to learn more.",
+      url: targetUrl
+    },
+    webpush: {
+      fcmOptions: {
+        link: targetUrl
+      }
+    },
+    tokens
+  };
+
+  if (image) {
+    message.notification.image = image;
+    message.data.image = image;
+  }
   if (icon) message.data.icon = icon;
   if (badge) message.data.badge = badge;
-  if (url) message.data.url = url;
 
   try {
     const response = await admin.messaging().sendEachForMulticast(message);

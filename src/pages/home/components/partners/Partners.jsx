@@ -2,7 +2,7 @@ import React from 'react';
 import './Partners.css';
 
 const Partners = () => {
-  const partners = [ "brix.png", ];
+  const partners = [ "brix.png", "krave_partners.png"];
   
   // Duplicate logos dynamically for infinite effect
   const logos = [...partners, ...partners, ...partners];
@@ -17,7 +17,7 @@ const Partners = () => {
               key={i}
               src={logo}
               alt='partner logo'
-              className='h-24 w-48 object-cover  grayscale hover:grayscale-0 transition duration-300'
+              className='h-24 w-48 object-cover  transition duration-300'
             />
           ))}
         </div>

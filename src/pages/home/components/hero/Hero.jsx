@@ -6,7 +6,7 @@ import { motion, AnimatePresence } from 'framer-motion'; // For animations
 
 // Hero component definition
 const preview = [
-    { pictures: "casted.webp", loading: "lazy" }
+    { pictures: "krave_hero.webp", loading: "lazy" }
 ];
 
 const Hero = () => {
@@ -15,7 +15,7 @@ const Hero = () => {
     // State to track the direction of the slide transition (for animation)
     const [direction, setDirection] = useState(0);
     // State to control mobile ad visibility
-    // const [showAd, setShowAd] = useState(true);
+    const [showAd, setShowAd] = useState(true);
     // Refs for DOM elements
     const heroRef = useRef(null);
     const sliderRef = useRef(null);
@@ -74,7 +74,7 @@ const Hero = () => {
         // Main container for the hero section
         <div className="w-full border-b  border-gray-200">
             {/* Mobile Ad Modal */}
-            {/* <AnimatePresence>
+            <AnimatePresence>
                 {showAd && (
                     <motion.div 
                         initial={{ opacity: 0 }}
@@ -91,14 +91,14 @@ const Hero = () => {
                                 <BsX />
                             </button>
                             <img 
-                                src="essentials.webp" 
+                                src="krave_banner.webp" 
                                 alt="Essentials Ad" 
                                 className="w-full h-auto rounded-lg shadow-2xl"
                             />
                         </div>
                     </motion.div>
                 )}
-            </AnimatePresence> */}
+            </AnimatePresence>
 
             {/* Preload the LCP image for faster loading on large screens */}
             <Helmet>

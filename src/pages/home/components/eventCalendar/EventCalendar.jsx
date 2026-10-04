@@ -27,8 +27,8 @@ const EventCalendar = () => {
   const [events] = useState([
     {
       id: 1,
-      title: "Resumption Date",
-      date: new Date(2026, 8, 20),
+      title: "Convocation Ceremony",
+      date: new Date(2026, 10, 9),
       time: "TBD",
       location: "Bells University",
       type: "academic",
