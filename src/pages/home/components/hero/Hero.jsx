@@ -6,7 +6,7 @@ import { motion, AnimatePresence } from 'framer-motion'; // For animations
 
 // Hero component definition
 const preview = [
-    { pictures: "krave_hero.png", loading: "lazy" }
+    { pictures: "krave_hero.webp", loading: "lazy" }
 ];
 
 const Hero = () => {
@@ -91,8 +91,8 @@ const Hero = () => {
                                 <BsX />
                             </button>
                             <img 
-                                src="krave_banner.webp" 
-                                alt="Essentials Ad" 
+                                src="krave_banner.png" 
+                                alt="Krave Ad" 
                                 className="w-full h-auto rounded-lg shadow-2xl"
                             />
                         </div>
