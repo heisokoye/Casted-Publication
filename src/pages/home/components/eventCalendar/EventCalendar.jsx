@@ -23,18 +23,160 @@ const ShareIcon = ({ className }) => (
  * This component is only visible on mobile devices.
  */
 const EventCalendar = () => {
-  // State for storing the list of events.
+  // State for storing the list of 18th Convocation Ceremony events
   const [events] = useState([
+    // Monday, 2nd November, 2026
     {
       id: 1,
-      title: "Convocation Ceremony",
-      date: new Date(2026, 10, 9),
-      time: "TBD",
-      location: "Bells University",
+      title: "Health Walk / Talk",
+      date: new Date(2026, 10, 2, 8, 0),
+      time: "08:00 AM",
+      location: "Campus / Field",
+      type: "sports",
+    },
+    {
+      id: 2,
+      title: "NIOB Induction",
+      date: new Date(2026, 10, 2, 12, 0),
+      time: "12:00 PM",
+      location: "Hall D",
       type: "academic",
+    },
+    {
+      id: 3,
+      title: "Awareness / Jingles",
+      date: new Date(2026, 10, 2, 17, 0),
+      time: "05:00 PM",
+      location: "Campus",
+      type: "cultural",
+    },
+
+    // Tuesday, 3rd November, 2026
+    {
+      id: 4,
+      title: "CPN Induction",
+      date: new Date(2026, 10, 3, 10, 0),
+      time: "10:00 AM",
+      location: "Edozien L.T.",
+      type: "academic",
+    },
+    {
+      id: 5,
+      title: "NIFST Induction Ceremony",
+      date: new Date(2026, 10, 3, 11, 0),
+      time: "11:00 AM",
+      location: "Room 6",
+      type: "academic",
+    },
+    {
+      id: 6,
+      title: "Nigerian Economic Society (NES)",
+      date: new Date(2026, 10, 3, 12, 0),
+      time: "12:00 PM",
+      location: "Hall D",
+      type: "academic",
+    },
+    {
+      id: 7,
+      title: "NSN Induction Ceremony",
+      date: new Date(2026, 10, 3, 13, 0),
+      time: "01:00 PM",
+      location: "Room 6",
+      type: "academic",
+    },
+    {
+      id: 8,
+      title: "Engineering Induction",
+      date: new Date(2026, 10, 3, 13, 0),
+      time: "01:00 PM",
+      location: "Lecture Hall 1",
+      type: "academic",
+    },
+
+    // Wednesday, 4th November, 2026
+    {
+      id: 9,
+      title: "Science & Technology Fair & Symposium",
+      date: new Date(2026, 10, 4, 10, 0),
+      time: "10:00 AM",
+      location: "BUPF Centre",
+      type: "academic",
+    },
+    {
+      id: 10,
+      title: "Sports Challenge",
+      date: new Date(2026, 10, 4, 16, 0),
+      time: "04:00 PM",
+      location: "University Field",
+      type: "sports",
+    },
+
+    // Thursday, 5th November, 2026
+    {
+      id: 11,
+      title: "Hooding Ceremony for Postgraduate Graduands",
+      date: new Date(2026, 10, 5, 10, 0),
+      time: "10:00 AM",
+      location: "BUPF Centre",
+      type: "academic",
+    },
+    {
+      id: 12,
+      title: "VC's Award for Scopus Scholars & SDGs",
+      date: new Date(2026, 10, 5, 17, 0),
+      time: "05:00 PM",
+      location: "Temperance",
+      type: "academic",
+    },
+
+    // Friday, 6th November, 2026
+    {
+      id: 13,
+      title: "Convocation Lecture",
+      date: new Date(2026, 10, 6, 10, 0),
+      time: "10:00 AM",
+      location: "BUPF Centre",
+      type: "academic",
+    },
+    {
+      id: 14,
+      title: "Jumat Service",
+      date: new Date(2026, 10, 6, 14, 0),
+      time: "02:00 PM",
+      location: "Mosque",
+      type: "cultural",
+    },
+    {
+      id: 15,
+      title: "Convocation Play / Intercollegiate Awards",
+      date: new Date(2026, 10, 6, 18, 0),
+      time: "06:00 PM",
+      location: "BUPF Centre",
+      type: "cultural",
+    },
+
+    // Saturday, 7th November, 2026
+    {
+      id: 16,
+      title: "18th Convocation Ceremony: Award of Degrees & Prizes",
+      date: new Date(2026, 10, 7, 10, 0),
+      time: "10:00 AM",
+      location: "BUPF Centre",
+      type: "academic",
+    },
+
+    // Sunday, 8th November, 2026
+    {
+      id: 17,
+      title: "Interdenominational Thanksgiving Service",
+      date: new Date(2026, 10, 8, 10, 0),
+      time: "10:00 AM",
+      location: "BUPF Centre",
+      type: "cultural",
     },
   ]);
 
+  const [showAll, setShowAll] = useState(false);
 
   const getEventTypeColorLight = (type) => {
     switch (type) {
@@ -55,9 +197,14 @@ const EventCalendar = () => {
   };
 
   const handleShare = async (event) => {
+    const formattedDate = event.date.toLocaleDateString("en-US", {
+      weekday: "short",
+      month: "short",
+      day: "numeric",
+    });
     const shareData = {
       title: event.title,
-      text: `Check out this event: ${event.title}\nDate: ${event.date.toLocaleDateString()}\nTime: ${event.time}\nLocation: ${event.location}`,
+      text: `Bells University 18th Convocation: ${event.title}\nDate: ${formattedDate}\nTime: ${event.time}\nLocation: ${event.location}`,
       url: window.location.href,
     };
 
@@ -65,7 +212,9 @@ const EventCalendar = () => {
       try {
         await navigator.share(shareData);
       } catch (err) {
-        console.error("Error sharing:", err);
+        if (err.name !== "AbortError") {
+          console.error("Error sharing:", err);
+        }
       }
     } else {
       const shareText = encodeURIComponent(`${shareData.text}\n${shareData.url}`);
@@ -80,41 +229,43 @@ const EventCalendar = () => {
     endDate.setHours(endDate.getHours() + 2);
 
     const googleCalendarUrl = `https://www.google.com/calendar/render?action=TEMPLATE&text=${encodeURIComponent(
-      event.title
+      `18th Convocation: ${event.title}`
     )}&dates=${formatCalendarDate(startDate)}/${formatCalendarDate(
       endDate
     )}&details=${encodeURIComponent(
-      `Event at ${event.location} - Time: ${event.time}`
-    )}&location=${encodeURIComponent(event.location)}&sf=true&output=xml`;
+      `Bells University 18th Convocation Ceremony - ${event.title}\nVenue: ${event.location}\nTime: ${event.time}`
+    )}&location=${encodeURIComponent(event.location + ", Bells University of Technology")}&sf=true&output=xml`;
 
     window.open(googleCalendarUrl, "_blank");
   };
-
 
   const upcomingEvents = React.useMemo(() => {
     const startOfToday = new Date();
     startOfToday.setHours(0, 0, 0, 0);
     return events
       .filter((event) => new Date(event.date) >= startOfToday)
-      .sort((a, b) => new Date(a.date) - new Date(b.date))
-      .slice(0, 3);
+      .sort((a, b) => new Date(a.date) - new Date(b.date));
   }, [events]);
 
+  const displayedEvents = showAll ? upcomingEvents : upcomingEvents.slice(0, 4);
+
   return (
-    <section className="py-16 border-b border-gray-200 md:hidden lg:hidden ">
+    <section className="py-16 border-b border-gray-200 md:hidden lg:hidden">
       <div className="mx-auto w-[92%]">
         <div className="space-y-4">
           <div className="flex items-center justify-between mb-2">
-            <h3 className="text-xl font-medium text-gray-900">Upcoming Events</h3>
+            <div>
+              <h3 className="text-xl font-medium text-gray-900">Upcoming Events</h3>
+              <p className="text-xs text-gray-500 font-normal">18th Convocation Ceremony Week</p>
+            </div>
             <span className="text-xs font-medium text-orange-500 bg-orange-50 px-3 py-1 rounded-full uppercase tracking-wider">
-              Next {upcomingEvents.length}
+              {upcomingEvents.length} Events
             </span>
           </div>
 
           <div className="space-y-4">
-            
-            {upcomingEvents.length > 0 ? (
-              upcomingEvents.map((event, index) => (
+            {displayedEvents.length > 0 ? (
+              displayedEvents.map((event) => (
                 <div
                   key={event.id}
                   className="group bg-white rounded-4xl p-4 border border-gray-100 shadow-[0_8px_30px_rgb(0,0,0,0.02)] hover:shadow-[0_15px_40px_rgb(0,0,0,0.05)] transition-all relative flex items-center gap-4"
@@ -134,16 +285,16 @@ const EventCalendar = () => {
                       <span className={`text-[9px] font-medium px-2 py-0.5 rounded-full uppercase tracking-wider ${getEventTypeColorLight(event.type)} ${getEventTextColor(event.type)}`}>
                         {event.type}
                       </span>
-                     
                     </div>
                     
-                    <h4 className="font-medium text-gray-900 text-base leading-tight mb-1 truncate group-hover:text-orange-500 transition-colors">
+                    <h4 className="font-medium text-gray-900 text-sm leading-tight mb-1 truncate group-hover:text-orange-500 transition-colors">
                       {event.title}
                     </h4>
                     
-                    <div className="flex items-center gap-1 text-[11px] font-medium text-gray-400">
-                      <span className="opacity-60">@</span>
-                      <span className="truncate">{event.location}</span>
+                    <div className="flex items-center gap-1.5 text-[11px] font-medium text-gray-400">
+                      <span className="text-gray-600 font-medium">{event.time}</span>
+                      <span className="opacity-40">•</span>
+                      <span className="truncate">@{event.location}</span>
                     </div>
                   </div>
 
@@ -168,11 +319,18 @@ const EventCalendar = () => {
             ) : (
               <p className="text-gray-400 text-center py-8 font-medium">No upcoming events found.</p>
             )}
+
+            {upcomingEvents.length > 4 && (
+              <button
+                onClick={() => setShowAll(!showAll)}
+                className="w-full py-3 px-4 text-xs font-semibold text-orange-600 bg-orange-50 hover:bg-orange-100 rounded-2xl transition-colors flex items-center justify-center gap-1.5 cursor-pointer mt-2"
+              >
+                {showAll ? "Show Less" : `View All ${upcomingEvents.length} Convocation Events`}
+              </button>
+            )}
           </div>
         </div>
       </div>
-
-      
     </section>
   );
 };
