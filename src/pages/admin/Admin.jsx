@@ -57,11 +57,11 @@ const Admin = () => {
 
       {/* RIGHT — FORM PANEL */}
       <div className="flex-1 flex items-center justify-center px-6 py-16">
-        <div className="w-full max-w-sm">
+        <div className="w-full max-w-sm ">
 
           <div className="mb-8">
             <h2 className="text-xl font-semibold text-[#18181B]">
-              Sign in to the desk
+              Sign in 
             </h2>
             <p className="text-[#6B6B6B] text-sm mt-1.5">
               Enter your staff credentials to reach the dashboard.

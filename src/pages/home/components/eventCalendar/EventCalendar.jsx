@@ -256,7 +256,7 @@ const EventCalendar = () => {
           <div className="flex items-center justify-between mb-2">
             <div>
               <h3 className="text-xl font-medium text-gray-900">Upcoming Events</h3>
-              <p className="text-xs text-gray-500 font-normal">18th Convocation Ceremony Week</p>
+              
             </div>
             <span className="text-xs font-medium text-orange-500 bg-orange-50 px-3 py-1 rounded-full uppercase tracking-wider">
               {upcomingEvents.length} Events
